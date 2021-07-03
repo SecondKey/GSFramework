@@ -144,6 +144,10 @@ namespace GSFramework.MVVM
         //    return tmp != null ? tmp.GetComponent<IUILogicalNode>() : null;
         //}
 
+        public virtual void MiddleInitFunction()
+        {
+            BasicManager.Instence.GetSingleton<UIManager>().RegistUITree(this as UIRootBase);
+        }
 
         #region Useless
         public ILinkedListNode<string> NextNode => throw new System.NotImplementedException();
@@ -166,11 +170,6 @@ namespace GSFramework.MVVM
         public void AddNode(ILinkedListNode<string> node, string token)
         {
             throw new System.NotImplementedException();
-        }
-
-        public void MiddleInitFunction()
-        {
-            BasicManager.Instence.GetSingleton<UIManager>().RegistUITree(this as UIRootBase);
         }
         #endregion
     }

@@ -10,9 +10,6 @@ namespace GSFramework.MVVM
 
         public Dictionary<string, EventHandler> RootEventHandlers { get; set; }
 
-        public virtual void HandleRootEvent(EventArgs args)
-        {
-            throw new System.NotImplementedException();
-        }
+        public virtual void HandleRootEvent(EventArgs args) { } 
     }
 }
