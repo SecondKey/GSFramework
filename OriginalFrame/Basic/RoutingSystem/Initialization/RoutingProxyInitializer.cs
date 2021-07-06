@@ -15,22 +15,20 @@ namespace GSFramework
         public void Initialization(IInitializableObject initializedObject)
         {
             Type type = initializedObject.GetType();
-            Dictionary<string, DataProvider> tmpHandlers = new Dictionary<string, DataProvider>();
+            IRoutingNodeProxy proxy = initializedObject as IRoutingNodeProxy;
+
             foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(p => p.IsDefined(typeof(EventBindingAttribute), true)))
             {
                 EventBindingAttribute attribute = Attribute.GetCustomAttribute(method, typeof(EventBindingAttribute)) as EventBindingAttribute;
                 string key = string.IsNullOrEmpty(attribute.EventToken) ? attribute.EventToken : method.Name;
                 if (method.ReturnType == typeof(void))
                 {
-
+                    proxy.RegistEventHandler(key, Delegate.CreateDelegate(typeof(EventHandler), method) as EventHandler);
                 }
                 else
                 {
-                    
+                    proxy.RegistDataProviders(key, Delegate.CreateDelegate(typeof(DataProvider), method) as DataProvider);
                 }
-
-                initializedObject as IRoutedNodeProxy
-                tmpHandlers.Add(key, (DataProvider)Delegate.CreateDelegate(typeof(DataProvider), initializedObject, method));
             }
         }
     }

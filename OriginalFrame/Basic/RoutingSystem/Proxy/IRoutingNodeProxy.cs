@@ -19,13 +19,18 @@ namespace GSFramework
         object ProxyIdentify { get; }
 
         /// <summary>
-        /// 注册的事件处理器
+        /// 注册事件处理器
         /// </summary>
-        Dictionary<string, EventHandler> EventHandlers { get; set; }
+        /// <param name="eventToken">事件令牌</param>
+        /// <param name="handler">事件处理器</param>
+        void RegistEventHandler(string eventToken, EventHandler handler);
+
         /// <summary>
-        /// 注册的数据处理器
+        /// 注册数据处理器
         /// </summary>
-        Dictionary<string, DataProvider> DataProviders { get; set; }
+        /// <param name="eventToken">事件令牌</param>
+        /// <param name="provider">数据处理器</param>
+        void RegistDataProviders(string eventToken, DataProvider provider);
 
         /// <summary>
         /// 执行事件

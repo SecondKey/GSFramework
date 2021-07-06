@@ -20,8 +20,8 @@ namespace GSFramework.MVVM
             uiTrees.Remove(uiTreeName);
         }
 
-        public List<KeyValuePair<IUILogicalNode, RoutedEventArgs>> RoutedLis = new List<KeyValuePair<IUILogicalNode, RoutedEventArgs>>();
-        public void LaunchRoutedEvent(IUILogicalNode Launcher, RoutedEventArgs args)
+        public List<KeyValuePair<IUILogicalNode, BubbleEventArgs>> RoutedLis = new List<KeyValuePair<IUILogicalNode, BubbleEventArgs>>();
+        public void LaunchRoutedEvent(IUILogicalNode Launcher, BubbleEventArgs args)
         {
             foreach (IUILogicalNode node in GetUINode(Launcher, args.Strategy))
             {
@@ -39,7 +39,7 @@ namespace GSFramework.MVVM
 
         }
 
-        public void RedirectionRoutedEvent(IUILogicalNode redirector, RoutedEventArgs args)
+        public void RedirectionRoutedEvent(IUILogicalNode redirector, BubbleEventArgs args)
         {
 
         }
@@ -55,11 +55,11 @@ namespace GSFramework.MVVM
         }
 
         //TODO:GetUINode未全部实现
-        IEnumerable GetUINode(IUINode node, RoutedStrategy strategy)
+        IEnumerable GetUINode(IUINode node, RoutingStrategy strategy)
         {
             switch (strategy)
             {
-                case RoutedStrategy.Bubble:
+                case RoutingStrategy.Bubble:
                     yield return node;
                     //if (node.Parent != null)
                     //{
@@ -69,15 +69,15 @@ namespace GSFramework.MVVM
                     //    }
                     //}
                     break;
-                case RoutedStrategy.Tunnel:
+                case RoutingStrategy.Tunnel:
                     break;
-                case RoutedStrategy.ReverseBubble:
+                case RoutingStrategy.ReverseBubble:
                     break;
-                case RoutedStrategy.ReverseTunnel:
+                case RoutingStrategy.ReverseTunnel:
                     break;
-                case RoutedStrategy.BottonToTop:
+                case RoutingStrategy.BottonToTop:
                     break;
-                case RoutedStrategy.TopToBottom:
+                case RoutingStrategy.TopToBottom:
                     break;
             }
         }

@@ -100,7 +100,7 @@ namespace GSFramework.MVVM
             throw new System.NotImplementedException();
         }
 
-        public void HandleRoutedEvent(RoutedEventArgs args)
+        public void HandleRoutedEvent(BubbleEventArgs args)
         {
             if (RoutedHandlers.ContainsKey(args.Token))
             {

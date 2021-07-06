@@ -14,7 +14,7 @@ namespace GSFramework
         /// <summary>
         /// 事件的令牌
         /// </summary>
-        public string EventToken { get; };
+        public string EventToken { get; }
         /// <summary>
         /// 使用函数名作为事件令牌
         /// </summary>

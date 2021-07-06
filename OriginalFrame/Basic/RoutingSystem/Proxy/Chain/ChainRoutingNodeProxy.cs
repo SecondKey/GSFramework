@@ -6,6 +6,17 @@ namespace GSFramework
 {
     public class ChainRoutingNodeProxy : IChainRoutingNodeProxy
     {
+        /// <summary>
+        /// 事件处理器列表
+        /// </summary>
+        Dictionary<string, EventHandler> EventHandlers { get; set; }
+        /// <summary>
+        /// 数据处理器列表
+        /// </summary>
+        Dictionary<string, DataProvider> DataProviders { get; set; }
+
+
+
         public IChainRoutingNodeProxy LastProxy { get; }
 
         public IChainRoutingNodeProxy NextProxy { get; }
@@ -44,8 +55,17 @@ namespace GSFramework
 
         public object ProxyIdentify => throw new System.NotImplementedException();
 
-        public Dictionary<string, EventHandler> EventHandlers { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        public Dictionary<string, DataProvider> DataProviders { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+
+        public void RegistEventHandler(string eventToken, EventHandler handler)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RegistDataProviders(string eventToken, DataProvider provider)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void PerformEvent(EventArgs args)
         {
