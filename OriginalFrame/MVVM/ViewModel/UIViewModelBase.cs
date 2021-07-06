@@ -9,7 +9,7 @@ namespace GSFramework.MVVM
 {
     public class UIViewModelBase : ObservableObject, IUIViewModel
     {
-        Dictionary<string, UIBinderProxy> DataBindingList = new Dictionary<string, UIBinderProxy>();
+        //Dictionary<string, UIBinderProxy> DataBindingList = new Dictionary<string, UIBinderProxy>();
 
         IObservableObject model;
         public IObservableObject Model
@@ -31,16 +31,16 @@ namespace GSFramework.MVVM
 
         public void BindingComponent(string objectName, IUIBinder binder)
         {
-            UIBinderProxy proxy = BasicManager.Instence.GetNewObject<UIBinderProxy>("", "", new Dictionary<string, object>() { { "Identify", binder } });
+            //UIBinderProxy proxy = BasicManager.Instence.GetNewObject<UIBinderProxy>("", "", new Dictionary<string, object>() { { "Identify", binder } });
 
-            if (!DataBindingList.ContainsKey(objectName))
-            {
-                DataBindingList.Add(objectName, proxy);
-            }
-            else
-            {
-                DataBindingList[objectName].AddNode(proxy);
-            }
+            //if (!DataBindingList.ContainsKey(objectName))
+            //{
+            //    DataBindingList.Add(objectName, proxy);
+            //}
+            //else
+            //{
+            //    DataBindingList[objectName].AddNode(proxy);
+            //}
         }
 
         public override void ExecuteCommand(string command, object parameter)
@@ -67,27 +67,27 @@ namespace GSFramework.MVVM
 
         public void PropertyChanged(string propertyName, object value)
         {
-            if (DataBindingList.ContainsKey(propertyName))
-            {
-                DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, value));
-            }
+            //if (DataBindingList.ContainsKey(propertyName))
+            //{
+            //    DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, value));
+            //}
         }
 
         public override void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (DataBindingList.ContainsKey(propertyName))
-            {
-                DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, GetType().GetProperty(propertyName).GetValue(this)));
-            }
+            //if (DataBindingList.ContainsKey(propertyName))
+            //{
+            //    DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, GetType().GetProperty(propertyName).GetValue(this)));
+            //}
         }
 
         public override void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
         {
-            string propertyName = (propertyExpression.Body as MemberExpression).Member.Name;
-            if (DataBindingList.ContainsKey(propertyName))
-            {
-                DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, propertyExpression.Compile().Invoke()));
-            }
+            //string propertyName = (propertyExpression.Body as MemberExpression).Member.Name;
+            //if (DataBindingList.ContainsKey(propertyName))
+            //{
+            //    DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, propertyExpression.Compile().Invoke()));
+            //}
         }
     }
 }

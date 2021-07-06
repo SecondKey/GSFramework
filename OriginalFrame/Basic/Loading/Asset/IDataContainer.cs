@@ -8,7 +8,7 @@ namespace GSFramework
     {
         void Load(string level, IState<string> state);
 
-        Dictionary<string, EventGetter> Getters { get; set; }
+        Dictionary<string, DataProvider> Getters { get; set; }
         object GetData(EventArgs args);
     }
 }

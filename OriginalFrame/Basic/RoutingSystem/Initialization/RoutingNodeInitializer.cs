@@ -7,18 +7,18 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public class EventNodeProxyInitializer : IInitializer
+    public class RoutingNodeInitializer : IInitializer
     {
         public void Initialization(IInitializableObject initializedObject)
         {
             Type type = initializedObject.GetType();
-            Dictionary<string, EventGetter> tmpHandlers = new Dictionary<string, EventGetter>();
+            Dictionary<string, DataProvider> tmpHandlers = new Dictionary<string, DataProvider>();
             foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(p => p.IsDefined(typeof(EventBindingAttribute), true)))
             {
                 EventBindingAttribute attribute = Attribute.GetCustomAttribute(method, typeof(EventBindingAttribute)) as EventBindingAttribute;
                 string key = attribute.EventToken;
 
-                tmpHandlers.Add(key, (EventGetter)Delegate.CreateDelegate(typeof(EventGetter), initializedObject, method));
+                tmpHandlers.Add(key, (DataProvider)Delegate.CreateDelegate(typeof(DataProvider), initializedObject, method));
             }
         }
     }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public interface ITreeNodeProxy
+    public interface ITreeRoutingNodeProxy : IRoutingNodeProxy
     {
         int Deep { get; }
         //ITreeRoot Root { get; }
-        Dictionary<object, ITreeNodeProxy> NextCollection { get; }
+        Dictionary<object, ITreeRoutingNodeProxy> NextCollection { get; }
 
         void RemoveDeep(int deep);
     }

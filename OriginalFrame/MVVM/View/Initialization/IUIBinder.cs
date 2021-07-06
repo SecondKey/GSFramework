@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 namespace GSFramework.MVVM
 {
+    /// <summary>
+    /// UI绑定器
+    /// </summary>
     public interface IUIBinder
     {
         void Binding(UIBehaviour uiComponent, UIBindingComponent bindingComponent, IUILogicalNode target);

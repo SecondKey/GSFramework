@@ -152,7 +152,7 @@ namespace GSFramework.Default
         #endregion
 
         #region IDataContainer Members
-        public Dictionary<string, EventGetter> Getters { get; set; }
+        public Dictionary<string, DataProvider> Getters { get; set; }
 
         public object GetData(EventArgs args)
         {

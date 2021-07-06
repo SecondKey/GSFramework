@@ -15,7 +15,7 @@ namespace GSFramework.MVC.MSGFrame
         /// <summary>
         /// 全部的事件树
         /// </summary>
-        public Dictionary<string, NotifiedObjectProxy> sendList = new Dictionary<string, NotifiedObjectProxy>();//存储注册的消息
+        //public Dictionary<string, NotifiedObjectProxy> sendList = new Dictionary<string, NotifiedObjectProxy>();//存储注册的消息
 
         public MsgManager(string managerName)
         {
@@ -42,16 +42,16 @@ namespace GSFramework.MVC.MSGFrame
         /// <param name="node">代理对象</param>
         public void RegistMsg(MsgComponent notifiedObject, string msg)
         {
-            NotifiedObjectProxy node = new NotifiedObjectProxy(notifiedObject);
-            if (!sendList.ContainsKey(msg))
-            {
-                sendList.Add(msg, node);
-            }
-            else
-            {
-                NotifiedObjectProxy tmp = sendList[msg];
-                tmp.AddNode(notifiedObject);
-            }
+            //NotifiedObjectProxy node = new NotifiedObjectProxy(notifiedObject);
+            //if (!sendList.ContainsKey(msg))
+            //{
+            //    sendList.Add(msg, node);
+            //}
+            //else
+            //{
+            //    NotifiedObjectProxy tmp = sendList[msg];
+            //    tmp.AddNode(notifiedObject);
+            //}
         }
 
         /// <summary>
@@ -74,14 +74,14 @@ namespace GSFramework.MVC.MSGFrame
         /// <param name="data">注销的对象</param>
         public void UnRegistSingle(string token, MsgComponent targetObject)
         {
-            if (!sendList.ContainsKey(token))
-            {
-                DevelopmentModeLog.MsgLogError($"执行注销操作时，传入了没有注册的消息：{token}");
-            }
-            else
-            {
-                sendList[token].RemoveNode(targetObject);
-            }
+            //if (!sendList.ContainsKey(token))
+            //{
+            //    DevelopmentModeLog.MsgLogError($"执行注销操作时，传入了没有注册的消息：{token}");
+            //}
+            //else
+            //{
+            //    sendList[token].RemoveNode(targetObject);
+            //}
         }
 
         /// <summary>
@@ -90,45 +90,45 @@ namespace GSFramework.MVC.MSGFrame
         /// <param name="tmpMsg"></param>
         public void SendMsg(EventArgs args)
         {
-            MessageArgs msg = args as MessageArgs;
-            switch (msg.SendMode)
-            {
-                case MsgSendMode.Auto:
-                    if (!sendList.ContainsKey(msg.Token))
-                    {
-                        DevelopmentModeLog.MsgLog($"收到了未注册的自动消息：{msg.Token}，转为全局消息");
-                        msg.SendMode = MsgSendMode.Global;
-                        SendMsg(msg);
-                    }
-                    else
-                    {
-                        sendList[msg.Token].HandleEvent(msg);
-                    }
-                    break;
-                case MsgSendMode.Local:
-                    if (!sendList.ContainsKey(msg.Token))
-                    {
-                        DevelopmentModeLog.MsgLogError($"收到了本地消息：{msg.Token}，但是该消息没有注册");
-                    }
-                    else
-                    {
-                        sendList[msg.Token].HandleEvent(msg);
-                    }
-                    break;
-                case MsgSendMode.Global:
-                    if (!sendList.ContainsKey(msg.Token))
-                    {
-                        DevelopmentModeLog.MsgLog($"收到了未注册的全局消息：{msg.Token}");
-                    }
-                    else
-                    {
-                        sendList[msg.Token].HandleEvent(msg);
-                    }
-                    break;
-                default:
-                    DevelopmentModeLog.MsgLogError("Manager收到了一个 未标注发送模式，或无法处理对应模式的Msg");
-                    break;
-            }
+            //MessageArgs msg = args as MessageArgs;
+            //switch (msg.SendMode)
+            //{
+            //    case MsgSendMode.Auto:
+            //        if (!sendList.ContainsKey(msg.Token))
+            //        {
+            //            DevelopmentModeLog.MsgLog($"收到了未注册的自动消息：{msg.Token}，转为全局消息");
+            //            msg.SendMode = MsgSendMode.Global;
+            //            SendMsg(msg);
+            //        }
+            //        else
+            //        {
+            //            sendList[msg.Token].HandleEvent(msg);
+            //        }
+            //        break;
+            //    case MsgSendMode.Local:
+            //        if (!sendList.ContainsKey(msg.Token))
+            //        {
+            //            DevelopmentModeLog.MsgLogError($"收到了本地消息：{msg.Token}，但是该消息没有注册");
+            //        }
+            //        else
+            //        {
+            //            sendList[msg.Token].HandleEvent(msg);
+            //        }
+            //        break;
+            //    case MsgSendMode.Global:
+            //        if (!sendList.ContainsKey(msg.Token))
+            //        {
+            //            DevelopmentModeLog.MsgLog($"收到了未注册的全局消息：{msg.Token}");
+            //        }
+            //        else
+            //        {
+            //            sendList[msg.Token].HandleEvent(msg);
+            //        }
+            //        break;
+            //    default:
+            //        DevelopmentModeLog.MsgLogError("Manager收到了一个 未标注发送模式，或无法处理对应模式的Msg");
+            //        break;
+            //}
         }
 
         public static void SendMsg(MessageArgs msg)

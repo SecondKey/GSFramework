@@ -27,20 +27,20 @@ namespace GSFramework.MVVM
         public Dictionary<string, EventHandler> Handlers { get; set; }
 
         #region Data
-        Dictionary<string, UIBinderProxy> DataBindingList = new Dictionary<string, UIBinderProxy>();
+        //Dictionary<string, UIBinderProxy> DataBindingList = new Dictionary<string, UIBinderProxy>();
         public void BindingComponent(string objectName, IUIBinder binder)
         {
             if (GetType().GetProperty(objectName) != null)
             {
-                UIBinderProxy proxy = BasicManager.Instence.GetNewObject<UIBinderProxy>("", "", new Dictionary<string, object>() { { "Identify", binder } });
-                if (!DataBindingList.ContainsKey(objectName))
-                {
-                    DataBindingList.Add(objectName, proxy);
-                }
-                else
-                {
-                    DataBindingList[objectName].AddNode(proxy);
-                }
+                //UIBinderProxy proxy = BasicManager.Instence.GetNewObject<UIBinderProxy>("", "", new Dictionary<string, object>() { { "Identify", binder } });
+                //if (!DataBindingList.ContainsKey(objectName))
+                //{
+                //    DataBindingList.Add(objectName, proxy);
+                //}
+                //else
+                //{
+                //    DataBindingList[objectName].AddNode(proxy);
+                //}
             }
             else
             {
@@ -50,19 +50,19 @@ namespace GSFramework.MVVM
 
         public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (DataBindingList.ContainsKey(propertyName))
-            {
-                DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, GetType().GetProperty(propertyName).GetValue(this)));
-            }
+            //if (DataBindingList.ContainsKey(propertyName))
+            //{
+            //    DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, GetType().GetProperty(propertyName).GetValue(this)));
+            //}
         }
 
         public void RaisePropertyChanged<T>(Expression<System.Func<T>> propertyExpression)
         {
-            string propertyName = (propertyExpression.Body as MemberExpression).Member.Name;
-            if (DataBindingList.ContainsKey(propertyName))
-            {
-                DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, propertyExpression.Compile().Invoke()));
-            }
+            //string propertyName = (propertyExpression.Body as MemberExpression).Member.Name;
+            //if (DataBindingList.ContainsKey(propertyName))
+            //{
+            //    DataBindingList[propertyName].HandleEvent(new PropertyChangedEventArgs(propertyName, propertyExpression.Compile().Invoke()));
+            //}
         }
         #endregion
 
@@ -118,59 +118,9 @@ namespace GSFramework.MVVM
             throw new System.NotImplementedException();
         }
 
-        //public IRoutedNode<string> FindChild(string identify)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //public IRoutedNode<string> FindParent(string identify)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //public IRoutedNode<string> FindParent(int relativePosition)
-        //{
-        //    if (transform.parent == null)
-        //        return null;
-        //    Transform tmp = transform.parent;
-        //    for (int i = 0; i < relativePosition; i++)
-        //    {
-        //        while (tmp.GetComponent<IUILogicalNode>() == null && tmp.parent != null)
-        //        {
-        //            tmp = tmp.parent;
-        //        }
-        //    }
-        //    Debug.Log(tmp.GetComponent<IUILogicalNode>());
-        //    return tmp != null ? tmp.GetComponent<IUILogicalNode>() : null;
-        //}
-
         public virtual void MiddleInitFunction()
         {
             BasicManager.Instence.GetSingleton<UIManager>().RegistUITree(this as UIRootBase);
         }
-
-        #region Useless
-        public ILinkedListNode<string> NextNode => throw new System.NotImplementedException();
-
-        public void AddNode(string nodeIdentify)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void AddNode(string nodeIdentify, string token)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void AddNode(ILinkedListNode<string> node)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void AddNode(ILinkedListNode<string> node, string token)
-        {
-            throw new System.NotImplementedException();
-        }
-        #endregion
     }
 }

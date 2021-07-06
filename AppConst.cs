@@ -38,10 +38,9 @@ namespace GSFramework
         public const string Injection_GameObject = "GameObject";
 
         public const string Init_Injection = "Injection";
-        public const string Init_EventNode = "EventNode";
-        public const string Init_EventNodeProxy = "EventNodeProxy";
-        public const string Init_HandlerEventBinding = "HandlerEventBinding";
-        public const string Init_GetterEventBinding = "GetterEventBinding";
+        public const string Init_RoutingNode = "RoutingNode";
+        public const string Init_RoutingProxy = "RoutingProxy";
+
         public const string Init_RoutedEventBinding = "RoutedEventBinding";
         public const string Init_Observable = "Observable";
         public const string Init_MsgBinding = "MsgBinding";

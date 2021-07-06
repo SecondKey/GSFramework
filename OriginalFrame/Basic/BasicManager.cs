@@ -106,7 +106,7 @@ namespace GSFramework
             foreach (string s in resourcesManagers.Keys)
             {
                 IResourcesManager manager = AppConfig.Instence.GetMapping(typeof(IResourcesManager).FullName, s).CreateInstence() as IResourcesManager;
-                resourcesManagers[s].AddNode(manager);
+                //resourcesManagers[s].AddNode(manager);
             }
             loadResourcesState.TmpReductionStateEvent = over;
             loadResourcesState.ExciteState(level);
