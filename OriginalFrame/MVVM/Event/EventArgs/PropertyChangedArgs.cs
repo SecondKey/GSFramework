@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
-    public class PropertyChangedEventArgs : EventArgs
+    public class PropertyChangedEventArgs : TopToBottomEventArgs
     {
         public string PropertyName { get; }
         public object Value { get; }

@@ -9,5 +9,5 @@ namespace GSFramework
     /// </summary>
     /// <param name="e">事件参数，可以包含事件参数，要处理的元数据或只传递令牌</param>
     /// <returns>处理后的数据</returns>
-    public delegate object DataProvider(EventArgs e);
+    public delegate object DataProvider(IRoutingEventArgs e);
 }

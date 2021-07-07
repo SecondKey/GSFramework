@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GSFramework.Default
 {
-    [Injectable_Initialization]
+    [Initialization_Injectable]
     public abstract class ResourcesManagerBase : IResourcesManager
     {
         [Inject(ParametersGetMode = AppConst.Injection_Additional)]

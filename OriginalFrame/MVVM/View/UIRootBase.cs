@@ -10,6 +10,6 @@ namespace GSFramework.MVVM
 
         public Dictionary<string, EventHandler> RootEventHandlers { get; set; }
 
-        public virtual void HandleRootEvent(EventArgs args) { } 
+        public virtual void HandleRootEvent(IRoutingEventArgs args) { } 
     }
 }

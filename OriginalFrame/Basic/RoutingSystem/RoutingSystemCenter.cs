@@ -11,12 +11,12 @@ namespace GSFramework
 
         }
 
-        public static void HandleEvent(this object routingNode, EventArgs args)
+        public static void HandleEvent(this object routingNode, IRoutingEventArgs args)
         {
 
         }
 
-        public static void HandleEvent(string routingName, EventArgs args)
+        public static void HandleEvent(string routingName, IRoutingEventArgs args)
         {
 
         }
@@ -26,12 +26,12 @@ namespace GSFramework
             return null;
         }
 
-        public static object GetData(this object routingNode, EventArgs args)
+        public static object GetData(this object routingNode, IRoutingEventArgs args)
         {
             return null;
         }
 
-        public static object GetData(string routingNode, EventArgs args)
+        public static object GetData(string routingNode, IRoutingEventArgs args)
         {
             return null;
         }

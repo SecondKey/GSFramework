@@ -10,7 +10,7 @@ using static GSFramework.AppConst;
 
 namespace GSFramework.MVVM
 {
-    [Observable_Initialization]
+    [Initialization_Observable]
     public class ObservableObject : IObservableObject
     {
         public Dictionary<string, DelegateCommand> Commands { get; set; } = new Dictionary<string, DelegateCommand>();

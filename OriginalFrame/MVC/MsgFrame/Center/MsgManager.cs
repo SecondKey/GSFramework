@@ -88,7 +88,7 @@ namespace GSFramework.MVC.MSGFrame
         /// 接收到一个消息，根据
         /// </summary>
         /// <param name="tmpMsg"></param>
-        public void SendMsg(EventArgs args)
+        public void SendMsg(IRoutingEventArgs args)
         {
             //MessageArgs msg = args as MessageArgs;
             //switch (msg.SendMode)
@@ -137,7 +137,7 @@ namespace GSFramework.MVC.MSGFrame
             {
                 case MsgSendMode.Auto:
                 case MsgSendMode.Local:
-                    BasicManager.Instence.GetObject<MsgManager>(msg.MsgSystem).SendMsg(msg);
+                    //BasicManager.Instence.GetObject<MsgManager>(msg.MsgSystem).SendMsg(msg);
                     break;
                 case MsgSendMode.Global:
 
@@ -147,9 +147,9 @@ namespace GSFramework.MVC.MSGFrame
                     break;
             }
         }
-        public void HandleRootEvent(EventArgs args)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public void HandleRootEvent(EventArgs args)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GSFramework.Default
 {
-    [Injectable_Initialization]
+    [Initialization_Injectable]
     public class GameObjectManager : ResourcesManagerBase
     {
         [Inject]
@@ -14,11 +14,10 @@ namespace GSFramework.Default
 
         #region Handler
         [EventBinding("Load")]
-        void Load(EventArgs args)
+        void Load(IRoutingEventArgs args)
         {
-            EventArgs<IState<string>> tmpArgs = args as EventArgs<IState<string>>;
             DevelopmentModeLog.BasicLog($"Start Load {Identify} GameObject");
-            tmpArgs.Parameter.RestoreState();
+            (args.Parameters[0] as IState<string>).RestoreState();
         }
         #endregion
 

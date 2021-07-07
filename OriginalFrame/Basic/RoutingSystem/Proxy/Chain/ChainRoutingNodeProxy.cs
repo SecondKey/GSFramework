@@ -67,12 +67,12 @@ namespace GSFramework
             throw new System.NotImplementedException();
         }
 
-        public void PerformEvent(EventArgs args)
+        public void PerformEvent(IRoutingEventArgs args)
         {
             throw new System.NotImplementedException();
         }
 
-        public object GetData(EventArgs args)
+        public object GetData(IRoutingEventArgs args)
         {
             throw new System.NotImplementedException();
         }

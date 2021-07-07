@@ -11,7 +11,7 @@ namespace GSFramework.Default
 
         }
 
-        public object GetGameObject(EventArgs args)
+        public object GetGameObject(IRoutingEventArgs args)
         {
             return null;
         }

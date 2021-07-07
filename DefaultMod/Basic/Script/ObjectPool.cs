@@ -14,27 +14,28 @@ namespace GSFramework.Default
             throw new System.NotImplementedException();
         }
 
-        public object GetIdleObject(EventArgs args)
+        public object GetIdleObject(IRoutingEventArgs args)
         {
-            ReusableObjectArgs tmpArgs = args as ReusableObjectArgs;
-            object tmpObject;
-            if (IdleObject.ContainsKey(tmpArgs.Group))
-            {
-                tmpObject = IdleObject[tmpArgs.Group][0];
-            }
-            else
-            {
-                tmpObject = BasicManager.Instence.GetNewObject(tmpArgs.ScriptType, tmpArgs.ScriptToken, tmpArgs.Performer as string);
-            }
-            if (ActiveObject.ContainsKey(tmpArgs.Group))
-            {
-                ActiveObject[tmpArgs.Group].Add(tmpObject);
-            }
-            else
-            {
-                ActiveObject.Add(tmpArgs.Group, new List<object>() { tmpObject });
-            }
-            return tmpObject;
+            //ReusableObjectArgs tmpArgs = args as ReusableObjectArgs;
+            //object tmpObject;
+            //if (IdleObject.ContainsKey(tmpArgs.Group))
+            //{
+            //    tmpObject = IdleObject[tmpArgs.Group][0];
+            //}
+            //else
+            //{
+            //    //tmpObject = BasicManager.Instence.GetNewObject(tmpArgs.ScriptType, tmpArgs.ScriptToken, tmpArgs.Performer as string);
+            //}
+            //if (ActiveObject.ContainsKey(tmpArgs.Group))
+            //{
+            //    ActiveObject[tmpArgs.Group].Add(tmpObject);
+            //}
+            //else
+            //{
+            //    ActiveObject.Add(tmpArgs.Group, new List<object>() { tmpObject });
+            //}
+            //return tmpObject;
+            return null;
         }
 
         public object GetIdleObject()

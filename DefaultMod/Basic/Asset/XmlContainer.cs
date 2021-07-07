@@ -82,40 +82,43 @@ namespace GSFramework.Default
 
         #region Getter
         [EventBinding(GetValue)]
-        public object GetValueAction(EventArgs args)
+        public object GetValueAction(IRoutingEventArgs args)
         {
-            string[] parameters = (args as EventArgs<string[]>).Parameter;
-            if (!XmlDocuments.ContainsKey(parameters[0]))
-            {
-                return null;
-            }
-            XElement e = XmlDocuments[parameters[0]].Root;
-            for (int i = 1; i < parameters.Length; i++)
-            {
-                e = e.Element(parameters[i]);
-            }
-            return e.Value;
+            //string[] parameters = (args as EventArgs<string[]>).Parameter;
+            //string[] parameters = (args as EventArgs<string[]>).Parameter;
+            //if (!XmlDocuments.ContainsKey(parameters[0]))
+            //{
+            //    return null;
+            //}
+            //XElement e = XmlDocuments[parameters[0]].Root;
+            //for (int i = 1; i < parameters.Length; i++)
+            //{
+            //    e = e.Element(parameters[i]);
+            //}
+            //return e.Value;
+            return null;
         }
 
         [EventBinding(GetAllValue)]
-        public object GetAllValueAction(EventArgs args)
+        public object GetAllValueAction(IRoutingEventArgs args)
         {
-            string[] parameters = (args as EventArgs<string[]>).Parameter;
-            if (!XmlDocuments.ContainsKey(parameters[0]))
-            {
-                return null;
-            }
-            Dictionary<string, string> tmpDic = new Dictionary<string, string>();
-            XElement e = XmlDocuments[parameters[0]].Root;
-            for (int i = 1; i < parameters.Length; i++)
-            {
-                e = e.Element(parameters[i]);
-            }
-            foreach (XElement element in e.Elements())
-            {
-                tmpDic.Add(element.Name.ToString(), element.Value);
-            }
-            return tmpDic;
+            //string[] parameters = (args as EventArgs<string[]>).Parameter;
+            //if (!XmlDocuments.ContainsKey(parameters[0]))
+            //{
+            //    return null;
+            //}
+            //Dictionary<string, string> tmpDic = new Dictionary<string, string>();
+            //XElement e = XmlDocuments[parameters[0]].Root;
+            //for (int i = 1; i < parameters.Length; i++)
+            //{
+            //    e = e.Element(parameters[i]);
+            //}
+            //foreach (XElement element in e.Elements())
+            //{
+            //    tmpDic.Add(element.Name.ToString(), element.Value);
+            //}
+            //return tmpDic;
+            return null;
         }
         #endregion 
 
@@ -154,7 +157,7 @@ namespace GSFramework.Default
         #region IDataContainer Members
         public Dictionary<string, DataProvider> Getters { get; set; }
 
-        public object GetData(EventArgs args)
+        public object GetData(IRoutingEventArgs args)
         {
             return Getters[args.Token].Invoke(args);
         }

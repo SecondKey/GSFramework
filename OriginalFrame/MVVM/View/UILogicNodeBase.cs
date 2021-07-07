@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
-    [Injectable_Initialization]
-    [Observable_Initialization]
-    [UIView_Initialization]
+    [Initialization_Injectable]
+    [Initialization_Observable]
+    [Initialization_UIView]
     public abstract class UILogicNodeBase : MonoBehaviour, IUILogicalNode, IInitializableObjectWithMiddleFunction
     {
         public virtual IObservableObject Model { get { return DataContext.Model; } set { DataContext.Model = value; } }
@@ -85,7 +85,7 @@ namespace GSFramework.MVVM
             throw new System.NotImplementedException();
         }
 
-        public void HandleEvent(EventArgs args)
+        public void HandleEvent(IRoutingEventArgs args)
         {
             throw new System.NotImplementedException();
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public class ReusableObjectArgs : EventArgs
+    public class ReusableObjectArgs : TargetEventArgs
     {
         public string ScriptType { get; }
         public string ScriptToken { get; }

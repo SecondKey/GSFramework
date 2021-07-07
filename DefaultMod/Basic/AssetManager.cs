@@ -26,11 +26,11 @@ namespace GSFramework.Default
         public ListState<string> LoadLevelState { get; set; } = new ListState<string>("");
 
         [EventBinding]
-        void Load(EventArgs args)
+        void Load(IRoutingEventArgs args)
         {
-            EventArgs<IState<string>> tmpArgs = args as EventArgs<IState<string>>;
+            //EventArgs tmpArgs = args as EventArgs;
             DevelopmentModeLog.BasicLog($"Start Load {Identify} Asset");
-            baseState = tmpArgs.Parameter;
+            //baseState = tmpArgs.Parameter;
             LoadLevelState.ExciteState(Identify);
         }
         #endregion
@@ -38,15 +38,16 @@ namespace GSFramework.Default
         #region Getter
         #region Data
         [EventBinding("GetData")]
-        public object GetGameData(EventArgs args)
+        public object GetGameData(IRoutingEventArgs args)
         {
-            GetDataEventArgs tmpArgs = args as GetDataEventArgs;
-            return dataContainer.GetData(new EventArgs<string[]>(tmpArgs.GetMode, tmpArgs.Parameter));
+            //GetDataEventArgs tmpArgs = args as GetDataEventArgs;
+            return null;
+            //return dataContainer.GetData(new EventArgs(tmpArgs.GetMode, tmpArgs.Parameter));
         }
         #endregion
 
         #region Bundle
-        public object GetBundleResource(EventArgs<string[]> args)
+        public object GetBundleResource(IRoutingEventArgs args)
         {
             return null;
             //return bundleContainer.GetData(args);
@@ -54,7 +55,7 @@ namespace GSFramework.Default
         #endregion
 
         #region Resource
-        public object GetResource(EventArgs<string> args)
+        public object GetResource(IRoutingEventArgs args)
         {
             return null;
             //return resourcesContainer.GetData(args);

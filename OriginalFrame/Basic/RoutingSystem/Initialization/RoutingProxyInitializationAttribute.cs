@@ -9,8 +9,8 @@ namespace GSFramework
     /// 路由代理初始化特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class RoutingProxyInitializationAttribute : InitializationAttributeBase
+    public class Initialization_RoutingProxyAttribute : InitializationAttributeBase
     {
-        public RoutingProxyInitializationAttribute() : base(AppConst.Init_RoutingProxy, AppConst.InitTime_Before) { }
+        public Initialization_RoutingProxyAttribute() : base(AppConst.Init_RoutingProxy, AppConst.InitTime_Before) { }
     }
 }

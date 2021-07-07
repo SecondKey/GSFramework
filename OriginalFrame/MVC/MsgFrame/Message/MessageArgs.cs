@@ -7,11 +7,10 @@ using UnityEngine;
 /// </summary>
 namespace GSFramework.MVC.MSGFrame
 {
-    public class MessageArgs : EventArgs
+    public class MessageArgs : TopToBottomEventArgs
     {
         public MsgSendMode SendMode { get; set; }
         public string MsgSystem { get; set; }
-        public object Source { get; set; }
 
         public MessageArgs(string token, MsgSendMode sendMode = MsgSendMode.Auto) : base(token)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public class ReusableGameObjectArgs : EventArgs
+    public class ReusableGameObjectArgs : TargetEventArgs
     {
         public string GameObjectName { get; set; }
         public ReusableGameObjectArgs(string gameObjectName, object performer = null) : base("GetReusableGameObject", performer)

@@ -54,7 +54,7 @@ namespace GSFramework
                 IResourcesManager manager = GetNewObject<IResourcesManager>(m, "", new Dictionary<string, object>() { { "Identify", RootLevel } });
                 //AppConfig.Instence.GetMapping(typeof(IResourcesManager).FullName, m).CreateInstence() as IResourcesManager;
                 resourcesManagers.Add(m, manager);
-                loadResourcesState.AddState((s) => { manager.HandleEvent(new EventArgs<IState<string>>("Load", loadResourcesState, s)); });
+                //loadResourcesState.AddState((s) => { manager.HandleEvent(new EventArgs("Load", loadResourcesState, s)); });
             }
             loadResourcesState.TmpReductionStateEvent += (s) => { StartUpdate(); };
             loadResourcesState.ExciteState(RootLevel);
@@ -140,15 +140,17 @@ namespace GSFramework
         #region Bundle
         public object GetBundleResource(string getDataToken, params string[] parameters)
         {
-            return GetBundleResource(new EventArgs<string[]>(getDataToken, parameters));
+            return null;
+            //return GetBundleResource(new EventArgs(getDataToken, parameters));
         }
 
         public object GetBundleResource(string getDataToken, string performer, params string[] parameters)
         {
-            return GetBundleResource(new EventArgs<string[]>(getDataToken, parameters, performer));
+            return null;
+            //return GetBundleResource(new EventArgs(getDataToken, parameters, performer));
         }
 
-        object GetBundleResource(EventArgs<string[]> args)
+        object GetBundleResource(EventArgs args)
         {
             return null;
             //return assetManager.GetBundleResource(args);
@@ -158,15 +160,17 @@ namespace GSFramework
         #region Resource
         public object GetResource(string getDataToken, string resourceName)
         {
-            return GetResource(new EventArgs<string>(getDataToken, resourceName));
+            return null;
+            //return GetResource(new EventArgs(getDataToken, resourceName));
         }
 
         public object GetResource(string getDataToken, string performer, string resourceName)
         {
-            return GetResource(new EventArgs<string>(getDataToken, resourceName, performer));
+            return null;
+            //return GetResource(new EventArgs(getDataToken, resourceName, performer));
         }
 
-        object GetResource(EventArgs<string> args)
+        object GetResource(EventArgs args)
         {
             return null;
             //return assetManager.GetResource(args);

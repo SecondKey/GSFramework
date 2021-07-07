@@ -38,7 +38,7 @@ namespace GSFramework.MVVM
 
 
     public delegate void CollectionChangedEventHandler(CollectionChangedEventArgs e);
-    public class CollectionChangedEventArgs : EventArgs
+    public class CollectionChangedEventArgs : TopToBottomEventArgs
     {
         public CollectionChangedEventArgs(string collection, CollectionChangedAction action) : base(collection)
         {

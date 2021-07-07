@@ -9,6 +9,6 @@ namespace GSFramework
         void Load(string level, IState<string> state);
 
         Dictionary<string, DataProvider> Getters { get; set; }
-        object GetData(EventArgs args);
+        object GetData(IRoutingEventArgs args);
     }
 }

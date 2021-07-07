@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
-    public class UIView_InitializationAttribute : InitializationAttributeBase
+    public class Initialization_UIViewAttribute : InitializationAttributeBase
     {
-        public UIView_InitializationAttribute() : base(AppConst.Init_UIView, AppConst.InitTime_After) { }
+        public Initialization_UIViewAttribute() : base(AppConst.Init_UIView, AppConst.InitTime_After) { }
     }
 }

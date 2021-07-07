@@ -14,39 +14,39 @@ namespace GSFramework
         /// </summary>
         None,
         /// <summary>
-        /// 点对点的路由
+        /// 指定目标的路由
         /// </summary>
-        P2P,
+        Target,
         /// <summary>
-        /// 有目标的，自当前节点向目标节点
+        /// 自当前节点向目标节点的路由
         /// </summary>
-        Targeted,
+        ToTarget,
         /// <summary>
-        /// 反向目标，自目标节点向当前节点
+        /// 自目标节点向当前节点的路由
         /// </summary>
-        ReverseTargeted,
+        FromTarget,
         /// <summary>
-        /// 冒泡路由，自当前节点向顶节点
+        /// 冒泡路由，自当前节点向顶节点的路由
         /// </summary>
         Bubble,
         /// <summary>
-        /// 反向冒泡路由，自底节点向当前节点
+        /// 反向冒泡路由，自底节点向当前节点的路由
         /// </summary>
         ReverseBubble,
         /// <summary>
-        /// 隧道路由，自顶节点向当前节点
+        /// 隧道路由，自顶节点向当前节点的路由
         /// </summary>
         Tunnel,
         /// <summary>
-        /// 反向隧道路由，自当前节点向底节点
+        /// 反向隧道路由，自当前节点向底节点的路由
         /// </summary>
         ReverseTunnel,
         /// <summary>
-        /// 自顶向底全部节点
+        /// 自顶向底全部节点的路由
         /// </summary>
         TopToBottom,
         /// <summary>
-        /// 自底向顶全部节点
+        /// 自底向顶全部节点的路由
         /// </summary>
         BottonToTop,
     }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
-    public class Observable_InitializationAttribute : InitializationAttributeBase
+    public class Initialization_ObservableAttribute : InitializationAttributeBase
     {
-        public Observable_InitializationAttribute() : base(AppConst.Init_Observable, AppConst.InitTime_Before) { }
+        public Initialization_ObservableAttribute() : base(AppConst.Init_Observable, AppConst.InitTime_Before) { }
     }
 }

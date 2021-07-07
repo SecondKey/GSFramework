@@ -25,7 +25,7 @@ namespace GSFramework.MVC.MSGFrame
 
         public void SendMsg(MessageArgs msg, string handler, object[] parameters)//发送消息方法
         {
-            msg.Source = notifiedObject;
+            //msg.Source = notifiedObject;
             if (!MsgHandlers.ContainsKey(handler))
             {
                 MsgHandlers.Add(handler, BasicManager.Instence.GetNewObject<IMsgHandler>(handler));

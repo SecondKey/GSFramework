@@ -9,8 +9,8 @@ namespace GSFramework
     /// 路由节点初始化特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class RoutingNodeInitializationAttribute : InitializationAttributeBase
+    public class Initialization_RoutingNodeAttribute : InitializationAttributeBase
     {
-        public RoutingNodeInitializationAttribute() : base(AppConst.Init_RoutingNode, AppConst.InitTime_Before) { }
+        public Initialization_RoutingNodeAttribute() : base(AppConst.Init_RoutingNode, AppConst.InitTime_Before) { }
     }
 }

@@ -23,9 +23,9 @@ namespace GSFramework.MVVM
         public List<KeyValuePair<IUILogicalNode, BubbleEventArgs>> RoutedLis = new List<KeyValuePair<IUILogicalNode, BubbleEventArgs>>();
         public void LaunchRoutedEvent(IUILogicalNode Launcher, BubbleEventArgs args)
         {
-            foreach (IUILogicalNode node in GetUINode(Launcher, args.Strategy))
+            foreach (IUILogicalNode node in GetUINode(Launcher, args.RoutingStrategy))
             {
-                if (args.Handled)
+                if (args.RoutingState==RoutingState.Handled)
                 {
                     break;
                 }

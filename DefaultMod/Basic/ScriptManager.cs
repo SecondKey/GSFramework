@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GSFramework.Default
 {
-    [Injectable_Initialization]
+    [Initialization_Injectable]
     public class ScriptManager : ResourcesManagerBase
     {
         [Inject]
@@ -17,18 +17,18 @@ namespace GSFramework.Default
 
         #region Handler
         [EventBinding]
-        void Load(EventArgs args)
+        void Load(IRoutingEventArgs args)
         {
-            EventArgs<IState<string>> tmpArgs = args as EventArgs<IState<string>>;
+            //EventArgs tmpArgs = args as EventArgs;
             DevelopmentModeLog.BasicLog($"Start Load {Identify} Script");
-            tmpArgs.Parameter.RestoreState();
+            //tmpArgs.Parameter.RestoreState();
         }
         #endregion 
 
         #region Getter
         #region NewInstence
         [EventBinding("GetNewObject")]
-        object GetNewObject(EventArgs args)
+        object GetNewObject(IRoutingEventArgs args)
         {
             InstenceArgs tmpArgs = args as InstenceArgs;
             return iocContainer.CreateInstence(tmpArgs.ScriptType, tmpArgs.ScriptToken);
@@ -37,7 +37,7 @@ namespace GSFramework.Default
 
         #region Object
         [EventBinding("GetObject")]
-        public object GetObject(EventArgs args)
+        public object GetObject(IRoutingEventArgs args)
         {
             ObjectArgs tmpArgs = args as ObjectArgs;
             return objectContainer.GetObject(tmpArgs.ScriptType, tmpArgs.ScriptToken, tmpArgs.ObjectToken);
@@ -45,7 +45,7 @@ namespace GSFramework.Default
         #endregion
 
         [EventBinding("GetIdleObject")]
-        public object GetIdleObject(EventArgs args)
+        public object GetIdleObject(IRoutingEventArgs args)
         {
             ObjectArgs tmpArgs = args as ObjectArgs;
             return objectPool.GetIdleObject();
