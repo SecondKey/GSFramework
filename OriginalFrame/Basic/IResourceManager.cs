@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public interface IResourcesManager : IInitializableObject
+    public interface IResourcesManager
     {
 
     }

@@ -9,7 +9,7 @@ namespace GSFramework.MVVM
 {
     public class ObservableInitializer : IInitializer
     {
-        public void Initialization(IInitializableObject initializedObject)
+        public void Initialization(object initializedObject)
         {
             Type type = initializedObject.GetType();
             Dictionary<string, DelegateCommand> tmpCommands = new Dictionary<string, DelegateCommand>();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public interface IDataContainer : IInitializableObject
+    public interface IDataContainer
     {
         void Load(string level, IState<string> state);
 

@@ -11,7 +11,7 @@ namespace GSFramework.MVVM
     [Initialization_Injectable]
     [Initialization_Observable]
     [Initialization_UIView]
-    public abstract class UILogicNodeBase : MonoBehaviour, IUILogicalNode, IInitializableObjectWithMiddleFunction
+    public abstract class UILogicNodeBase : MonoBehaviour, IUILogicalNode
     {
         public virtual IObservableObject Model { get { return DataContext.Model; } set { DataContext.Model = value; } }
         public virtual IUIViewModel DataContext { get { return /*(Parent as IUILogicalNode).DataContext;*/null; } set { } }
@@ -118,7 +118,8 @@ namespace GSFramework.MVVM
             throw new System.NotImplementedException();
         }
 
-        public virtual void MiddleInitFunction()
+        [InitMiddleFunction]
+        public void Init()
         {
             BasicManager.Instence.GetSingleton<UIManager>().RegistUITree(this as UIRootBase);
         }

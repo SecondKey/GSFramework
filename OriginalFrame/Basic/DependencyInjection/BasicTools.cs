@@ -110,9 +110,9 @@ namespace GSFramework
                 }
             }
             object instence = Activator.CreateInstance(t, parametersList.ToArray());
-            if (instence is IInitializableObject)
+            if (instence.GetType().GetCustomAttributes(typeof(InitializationAttributeBase)) != null)
             {
-                (instence as IInitializableObject).PerformInitialization();
+                instence.PerformInitialization();
             }
             return instence;
         }

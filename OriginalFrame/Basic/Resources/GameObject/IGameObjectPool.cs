@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public interface IGameObjectPool : IInitializableObject
+    public interface IGameObjectPool
     {
 
     }

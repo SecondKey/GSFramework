@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public interface IAssembler : IInitializableObject
+    public interface IStaticResourcesContainer
     {
-        object GetGameObject(IRoutingEventArgs args);
+        void Load(string level, IState<string> state);
     }
 }

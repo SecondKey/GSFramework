@@ -10,9 +10,9 @@ public class SceneInitializationManager : MonoBehaviour
     void Start()
     {
         var all = Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[];
-        foreach (var o in all.Where(o => o.activeInHierarchy && o.GetComponent<IInitializableObject>() != null))
+        foreach (var o in all.Where(o => o.activeInHierarchy && o.GetComponent<object>() != null))
         {
-            InitializeManager.PerformInitialization(o.GetComponent<IInitializableObject>());
+            InitializeManager.PerformInitialization(o.GetComponent<object>());
         }
     }
 }

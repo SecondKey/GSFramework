@@ -9,7 +9,7 @@ namespace GSFramework.MVC.MSGFrame
 {
     public class MsgBindingInitializer : IInitializer
     {
-        public void Initialization(IInitializableObject initializedObject)
+        public void Initialization(object initializedObject)
         {
             INotifiedObject notifiedObject = initializedObject as INotifiedObject;
             IMsgComponent component = BasicManager.Instence.GetNewObject<IMsgComponent>();

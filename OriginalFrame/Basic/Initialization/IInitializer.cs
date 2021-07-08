@@ -11,6 +11,6 @@ namespace GSFramework
     /// </summary>
     public interface IInitializer
     {
-        void Initialization(IInitializableObject initializedObject);
+        void Initialization(object initializedObject);
     }
 }

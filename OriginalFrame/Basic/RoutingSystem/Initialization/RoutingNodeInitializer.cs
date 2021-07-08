@@ -9,7 +9,7 @@ namespace GSFramework
 {
     public class RoutingNodeInitializer : IInitializer
     {
-        public void Initialization(IInitializableObject initializedObject)
+        public void Initialization(object initializedObject)
         {
             Type type = initializedObject.GetType();
             Dictionary<string, DataProvider> tmpHandlers = new Dictionary<string, DataProvider>();

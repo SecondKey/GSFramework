@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
-    public interface IObservableObject : IInitializableObject
+    public interface IObservableObject 
     {
         Dictionary<string, DelegateCommand> Commands { get; set; }
         void ExecuteCommand(string command, object parameter);

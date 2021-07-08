@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace GSFramework
@@ -10,18 +11,20 @@ namespace GSFramework
     {
         static Dictionary<string, IInitializer> initializers = new Dictionary<string, IInitializer>();
 
-        public static void PerformInitialization(this IInitializableObject initialized)
+        public static void PerformInitialization(this object initializableObject)
         {
-            GetInitializer(AppConst.Init_Injection).Initialization(initialized);
-            foreach (InitializationAttributeBase attribute in Attribute.GetCustomAttributes(initialized.GetType(), typeof(InitializationAttributeBase)).Where(p => (p as InitializationAttributeBase).InitializeTime == AppConst.InitTime_Before))
+            GetInitializer(AppConst.Init_Injection).Initialization(initializableObject);
+            foreach (InitializationAttributeBase attribute in Attribute.GetCustomAttributes(initializableObject.GetType(), typeof(InitializationAttributeBase)).Where(p => (p as InitializationAttributeBase).InitializeTime == AppConst.InitTime_Before))
             {
-                GetInitializer(attribute.InitializerType).Initialization(initialized);
+                GetInitializer(attribute.InitializerType).Initialization(initializableObject);
             }
-            if (initialized is IInitializableObjectWithMiddleFunction)
-                (initialized as IInitializableObjectWithMiddleFunction).MiddleInitFunction();
-            foreach (InitializationAttributeBase attribute in Attribute.GetCustomAttributes(initialized.GetType(), typeof(InitializationAttributeBase)).Where(p => (p as InitializationAttributeBase).InitializeTime == AppConst.InitTime_After))
+            foreach (MethodInfo info in initializableObject.GetType().GetMethods().Where(p => p.IsDefined(typeof(InitMiddleFunctionAttribute))))
             {
-                GetInitializer(attribute.InitializerType).Initialization(initialized);
+                info.Invoke(initializableObject, null);
+            }
+            foreach (InitializationAttributeBase attribute in Attribute.GetCustomAttributes(initializableObject.GetType(), typeof(InitializationAttributeBase)).Where(p => (p as InitializationAttributeBase).InitializeTime == AppConst.InitTime_After))
+            {
+                GetInitializer(attribute.InitializerType).Initialization(initializableObject);
             }
         }
 

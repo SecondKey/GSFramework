@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace GSFramework.Default
 {
-    public class ResourceContainer : IResourceContainer
+    public class ResourceContainer : ILocalResourcesContainer
     {
         List<string> textureFormat = new List<string>() { "png", "jpg" };
 

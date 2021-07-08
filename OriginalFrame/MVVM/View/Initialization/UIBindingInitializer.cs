@@ -6,7 +6,7 @@ namespace GSFramework.MVVM
 {
     public class UIBindingInitializer : IInitializer
     {
-        public void Initialization(IInitializableObject initializedObject)
+        public void Initialization(object initializedObject)
         {
             MonoBehaviour targetObject = (MonoBehaviour)initializedObject;
             foreach (GameObject g in targetObject.gameObject.GetInsideUI())

@@ -12,7 +12,7 @@ namespace GSFramework
     /// </summary>
     public class RoutingProxyInitializer : IInitializer
     {
-        public void Initialization(IInitializableObject initializedObject)
+        public void Initialization(object initializedObject)
         {
             Type type = initializedObject.GetType();
             IRoutingNodeProxy proxy = initializedObject as IRoutingNodeProxy;

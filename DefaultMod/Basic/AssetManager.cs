@@ -12,7 +12,7 @@ namespace GSFramework.Default
         [Inject]
         IBundleContainer bundleContainer { get; set; }
         [Inject]
-        IResourceContainer resourceContainer { get; set; }
+        ILocalResourcesContainer resourceContainer { get; set; }
 
         public override void Initialization()
         {

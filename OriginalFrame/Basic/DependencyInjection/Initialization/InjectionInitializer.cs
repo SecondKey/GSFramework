@@ -13,7 +13,7 @@ namespace GSFramework
     /// </summary>
     public class InjectionInitializer : IInitializer
     {
-        public void Initialization(IInitializableObject initializedObject)
+        public void Initialization(object initializedObject)
         {
             Type type = initializedObject.GetType();
             foreach (PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(p => p.IsDefined(typeof(InjectAttribute), true)))

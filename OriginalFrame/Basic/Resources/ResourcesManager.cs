@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public interface IResourceContainer
+    public class ResourcesManager
     {
-        void Load(string level, IState<string> state);
+
     }
 }
