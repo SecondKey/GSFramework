@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
+    /// <summary>
+    /// 集合发生变化的行为
+    /// </summary>
     public enum CollectionChangedAction
     {
         /// <summary>

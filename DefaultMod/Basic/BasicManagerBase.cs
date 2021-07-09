@@ -6,18 +6,12 @@ using UnityEngine;
 namespace GSFramework.Default
 {
     [Initialization_Injectable]
-    public abstract class ResourcesManagerBase : IResourcesManager
+    public abstract class ResourcesManager
     {
-        [Inject(ParametersGetMode = AppConst.Injection_Additional)]
-        public string Identify { get; set; }
-        public Dictionary<string, EventHandler> Handlers { get; set; }
-        public Dictionary<string, DataProvider> Getters { get; set; }
+        [InitMiddleFunction]
+        public void Loading()
+        {
 
-
-        #region IInitializableObject Members
-        public virtual void Initialization() { }
-        #endregion 
-
-
+        }
     }
 }

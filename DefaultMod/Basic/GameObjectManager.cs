@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GSFramework.Default
 {
     [Initialization_Injectable]
-    public class GameObjectManager : ResourcesManagerBase
+    public class GameObjectManager : IResourcesProvider
     {
         [Inject]
         IAssembler assembler { get; set; }
@@ -16,8 +16,8 @@ namespace GSFramework.Default
         [EventBinding("Load")]
         void Load(IRoutingEventArgs args)
         {
-            DevelopmentModeLog.BasicLog($"Start Load {Identify} GameObject");
-            (args.Parameters[0] as IState<string>).RestoreState();
+            //DevelopmentModeLog.BasicLog($"Start Load {Identify} GameObject");
+            //(args.Parameters[0] as IState<string>).RestoreState();
         }
         #endregion
 

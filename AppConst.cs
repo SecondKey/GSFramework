@@ -85,15 +85,6 @@ namespace GSFramework
         public static string DataPath { get { return Application.dataPath + "/"; } }
 
         public static Dictionary<string, string> AssetPath = new Dictionary<string, string>() { { "AppConfig", DataPath + "AppConfig.xml" } };
-
-        //public const string RootPath = "GameAssets/Root";
-        //public const string GeneralPath = "GameAssets/General";
-        //public const string UpdatePath = "Update";
-        //public const string DynamicDataPath = "Dynamic";
-        //public const string SaveDataPath = "Save";
-        //public const string DLCPath = "DLC";
-        //public const string MODPath = "MOD";
-
         #endregion
 
         #region IOC

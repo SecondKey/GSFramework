@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace GSFramework.MVVM
 {
-
     /// <summary>
     /// ObservableCollection的字典版
     /// </summary>

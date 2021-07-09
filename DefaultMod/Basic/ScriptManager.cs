@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GSFramework.Default
 {
     [Initialization_Injectable]
-    public class ScriptManager : ResourcesManagerBase
+    public class ScriptManager : IResourcesProvider
     {
         [Inject]
         IIOCContainer iocContainer { get; set; }
@@ -20,7 +20,7 @@ namespace GSFramework.Default
         void Load(IRoutingEventArgs args)
         {
             //EventArgs tmpArgs = args as EventArgs;
-            DevelopmentModeLog.BasicLog($"Start Load {Identify} Script");
+            //DevelopmentModeLog.BasicLog($"Start Load {Identify} Script");
             //tmpArgs.Parameter.RestoreState();
         }
         #endregion 

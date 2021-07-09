@@ -45,19 +45,19 @@ namespace GSFramework
         /// <summary>
         /// 进行游戏初始化，包括读取配置文件，检查更新以及初始资源的加载
         /// </summary>
-        /// <param name="initalizationOverAction">初始化结束后s的回调</param>
+        /// <param name="initalizationOverAction">初始化结束后的回调</param>
         public void GameInitalization(Action initalizationOverAction)
         {
-            onInitalizationOver = initalizationOverAction;
-            foreach (string m in AppConfig.Instence.ManagerList)
-            {
-                IResourcesManager manager = GetNewObject<IResourcesManager>(m, "", new Dictionary<string, object>() { { "Identify", RootLevel } });
-                //AppConfig.Instence.GetMapping(typeof(IResourcesManager).FullName, m).CreateInstence() as IResourcesManager;
-                resourcesManagers.Add(m, manager);
-                //loadResourcesState.AddState((s) => { manager.HandleEvent(new EventArgs("Load", loadResourcesState, s)); });
-            }
-            loadResourcesState.TmpReductionStateEvent += (s) => { StartUpdate(); };
-            loadResourcesState.ExciteState(RootLevel);
+            //onInitalizationOver = initalizationOverAction;
+            //foreach (string m in AppConfig.Instence.ManagerList)
+            //{
+            //    IResourcesManager manager = GetNewObject<IResourcesManager>(m, "", new Dictionary<string, object>() { { "Identify", RootLevel } });
+            //    //AppConfig.Instence.GetMapping(typeof(IResourcesManager).FullName, m).CreateInstence() as IResourcesManager;
+            //    resourcesManagers.Add(m, manager);
+            //    //loadResourcesState.AddState((s) => { manager.HandleEvent(new EventArgs("Load", loadResourcesState, s)); });
+            //}
+            //loadResourcesState.TmpReductionStateEvent += (s) => { StartUpdate(); };
+            //loadResourcesState.ExciteState(RootLevel);
         }
         /// <summary>
         /// 开始更新
@@ -84,33 +84,7 @@ namespace GSFramework
 
         #region ResourcesManagement
         #region Load
-        /// <summary>
-        /// 包含一系列资源加载方法的链式状态
-        /// 其中的方法将顺序加载，以保证其中的依赖性
-        /// </summary>
-        internal ListState<string> loadResourcesState { get; } = new ListState<string>("");
-        /// <summary>
-        /// 包含一系列的资源管理器
-        /// 这些资源管理器被设计成链表的结构，以方便动态加载卸载。
-        /// 这里包含所有类型的管理器的头节点。
-        /// </summary>
-        Dictionary<string, IResourcesManager> resourcesManagers = new Dictionary<string, IResourcesManager>();
-        /// <summary>
-        /// 加载一个资源层级，
-        /// 在加载时不会自动加载前置层级，因此在调用时需要保证其前置层级已经加载
-        /// </summary>
-        /// <param name="level">需要加载的资源层级</param>
-        /// <param name="over">加载完成的回调函数</param>
-        public void LoadResoureces(string level, Action<string> over)
-        {
-            foreach (string s in resourcesManagers.Keys)
-            {
-                IResourcesManager manager = AppConfig.Instence.GetMapping(typeof(IResourcesManager).FullName, s).CreateInstence() as IResourcesManager;
-                //resourcesManagers[s].AddNode(manager);
-            }
-            loadResourcesState.TmpReductionStateEvent = over;
-            loadResourcesState.ExciteState(level);
-        }
+
         #endregion
 
         #region Get
@@ -133,7 +107,8 @@ namespace GSFramework
 
         object GetData(GetDataEventArgs args)
         {
-            return resourcesManagers[AssetManager].GetData(args);
+            //return resourcesManagers[AssetManager].GetData(args);
+            return null;
         }
         #endregion
 
@@ -215,12 +190,14 @@ namespace GSFramework
                 }
                 if (tmpObject == null)
                 {
-                    tmpObject = resourcesManagers[ScriptManager].GetData(new InstenceArgs(scriptType, scriptToken, performer));
+                    //tmpObject = resourcesManagers[ScriptManager].GetData(new InstenceArgs(scriptType, scriptToken, performer));
                 }
                 if (tmpObject == null)
                 {
                     tmpObject = scriptType.CreateInstence();
                 }
+
+
             }
             return tmpObject;
         }
@@ -230,6 +207,11 @@ namespace GSFramework
         public T GetSingleton<T>()
         {
             return GetObject<T>();
+        }
+
+        public object GetSingleton(Type scriptType)
+        {
+            return GetObject(scriptType);
         }
 
         public T GetObject<T>(string scriptToken = "", string objectToken = "", string performer = RootLevel)
@@ -244,7 +226,8 @@ namespace GSFramework
 
         public object GetObject(string scriptType, string scriptToken = "", string objectToken = "", string performer = RootLevel)
         {
-            return resourcesManagers[ScriptManager].GetData(new ObjectArgs(scriptType, scriptToken, objectToken, performer));
+            //return resourcesManagers[ScriptManager].GetData(new ObjectArgs(scriptType, scriptToken, objectToken, performer));
+            return null;
         }
         #endregion
 
@@ -277,7 +260,8 @@ namespace GSFramework
         #region GameObjectPool
         public GameObject GetReusableGameObject(string name, string performer = "")
         {
-            return resourcesManagers[GameObjectManager].GetData(new ReusableGameObjectArgs(name, performer)) as GameObject;
+            //return resourcesManagers[GameObjectManager].GetData(new ReusableGameObjectArgs(name, performer)) as GameObject;
+            return null;
         }
         #endregion
         #endregion

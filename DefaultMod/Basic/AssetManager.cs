@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GSFramework.Default
 {
-    public class AssetManager : ResourcesManagerBase
+    public class AssetManager : IResourcesProvider
     {
         [Inject]
         IDataContainer dataContainer { get; set; }
@@ -14,7 +14,8 @@ namespace GSFramework.Default
         [Inject]
         ILocalResourcesContainer resourceContainer { get; set; }
 
-        public override void Initialization()
+        [InitMiddleFunction]
+        public void Initialization()
         {
             LoadLevelState.AddState((s) => { dataContainer.Load(s, LoadLevelState); });
             LoadLevelState.AddState((s) => { bundleContainer.Load(s, LoadLevelState); });
@@ -28,10 +29,10 @@ namespace GSFramework.Default
         [EventBinding]
         void Load(IRoutingEventArgs args)
         {
-            //EventArgs tmpArgs = args as EventArgs;
-            DevelopmentModeLog.BasicLog($"Start Load {Identify} Asset");
-            //baseState = tmpArgs.Parameter;
-            LoadLevelState.ExciteState(Identify);
+            ////EventArgs tmpArgs = args as EventArgs;
+            //DevelopmentModeLog.BasicLog($"Start Load {Identify} Asset");
+            ////baseState = tmpArgs.Parameter;
+            //LoadLevelState.ExciteState(Identify);
         }
         #endregion
 
