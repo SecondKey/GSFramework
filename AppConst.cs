@@ -7,11 +7,14 @@ namespace GSFramework
 {
     public static class AppConst
     {
-        //请不要修改Auto的数据
-        #region Auto
-        #region IOC/Initialize
+        #region Basic
+        #region Path
+        public static string DataPath { get { return Application.dataPath + "/"; } }
 
-        public const string Injection_Static = "Static";
+        public static Dictionary<string, string> AssetPath = new Dictionary<string, string>() { { "AppConfig", DataPath + "AppConfig.xml" } };
+        #endregion
+
+        #region Parameter Get Mode
         /// <summary>
         /// 使用事件中的值
         /// </summary>
@@ -36,7 +39,9 @@ namespace GSFramework
         /// 获取一个对象，该对象可以是已经在对象池中的对象
         /// </summary>
         public const string Injection_GameObject = "GameObject";
+        #endregion
 
+        #region Initialization Mode
         public const string Init_Injection = "Injection";
         public const string Init_RoutingNode = "RoutingNode";
         public const string Init_RoutingProxy = "RoutingProxy";
@@ -45,67 +50,42 @@ namespace GSFramework
         public const string Init_Observable = "Observable";
         public const string Init_MsgBinding = "MsgBinding";
         public const string Init_UIView = "UIView";
-
-        public const string InitTime_Before = "InitMode_Before";
-        public const string InitTime_After = "InitMode_After";
-
         #endregion
 
-        #region Asset
-        public enum AssetLevel
-        {
-            Internal = -1,
-            Root = 0,
-            General = 10,
-            Additional = 30,
-            Running = 40,
-            RunningAdditional = 50
-        }
+        #region Initialization Time
+        public const string InitTime_Before = "InitMode_Before";
+        public const string InitTime_After = "InitMode_After";
+        #endregion
 
+        #region ResourcesLevel
         public const string RootLevel = "Root";
         public const string GeneralLevel = "General";
         public const string AdditionalLevel = "Additional";
         public const string RunningLevel = "Running";
         public const string RunningAdditionalLevel = "RunningAdditional";
+        #endregion 
 
-        public static int GetAssetLevelNum(this string assetName)
-        {
-            return (int)(AssetLevel)Enum.Parse(typeof(AssetLevel), assetName);
-        }
+        #region RoutingBlock
+        public const string RoutingBlock_Resources = "RoutingBlock_Resources";
         #endregion
 
-        #region Msg
+        #region ResourcesEvent
+        public const string Resources_GetData = "Resources_GetData";
+        //public const string Resources_GetBundle = "Resources_GetBundle";
+        //public const string Resources_GetData = "Resources_GetData";
+
+        public const string Resources_CreateInstence = "Resources_CreateInstence";
+        public const string Resources_GetInstence = "Resources_GetInstence";
+        #endregion
+        #endregion
+
+        #region MVC
         public const string MsgHandler_Common = "Common";
         public const string MsgHandler_Wait = "Wait";
         #endregion
-        #endregion
 
-        #region Modifiable  
-        #region Path
-        public static string DataPath { get { return Application.dataPath + "/"; } }
-
-        public static Dictionary<string, string> AssetPath = new Dictionary<string, string>() { { "AppConfig", DataPath + "AppConfig.xml" } };
-        #endregion
-
-        #region IOC
+        #region MVVM
 
         #endregion
-
-        #region Asset
-        public const string RootData = "RootData";
-        public const string RootBundle = "RootnBundle";
-        #endregion
-
-        #region MsgSystem
-        public const string MsgSystem_RootModel = "RootModel";
-        #endregion
-
-        #endregion
-
-        #region ResourcesManager
-        public const string AssetManager = "AssetManager";
-        public const string ScriptManager = "ScriptManager";
-        public const string GameObjectManager = "GameObjectManager";
-        #endregion 
     }
 }

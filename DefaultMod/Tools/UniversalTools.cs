@@ -63,5 +63,9 @@ namespace GSFramework
             return returnValue;
         }
 
+        public static bool IsNullOrEmpty(this string detectionString)
+        {
+            return string.IsNullOrEmpty(detectionString);
+        }
     }
 }

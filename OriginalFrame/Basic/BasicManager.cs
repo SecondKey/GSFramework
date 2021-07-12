@@ -59,16 +59,7 @@ namespace GSFramework
             //loadResourcesState.TmpReductionStateEvent += (s) => { StartUpdate(); };
             //loadResourcesState.ExciteState(RootLevel);
         }
-        /// <summary>
-        /// 开始更新
-        /// </summary>
-        void StartUpdate()
-        {
-            IUpdateManager updateManager = GetNewObject<IUpdateManager>();
-            UpdateState.TmpRestoreStateEvent += (b) => { InitalizationOver(); };
-            UpdateState.ExciteState(true);
-            updateManager.Update(UpdateState);
-        }
+
         /// <summary>
         /// 初始化结束
         /// </summary>
