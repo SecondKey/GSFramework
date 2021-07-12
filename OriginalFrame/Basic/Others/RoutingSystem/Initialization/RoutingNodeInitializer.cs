@@ -20,15 +20,15 @@ namespace GSFramework
 
             if (IDPropertys != null && IDPropertys.Count() > 0 && IDPropertys.First().GetValue(initializedObject) != null)
             {
-                BasicCenter.GetInstence<IRoutingController>(attribute.RoutingBlockID).AddNode(initializedObject, IDPropertys.First().GetValue(initializedObject));
+                //BasicCenter.GetInstence<IRoutingController>(attribute.RoutingBlockID).AddNode(initializedObject, IDPropertys.First().GetValue(initializedObject));
             }
             else if (!attribute.IdentifyProperty.IsNullOrEmpty() & type.GetProperty(attribute.IdentifyProperty) != null && type.GetProperty(attribute.IdentifyProperty).GetValue(initializedObject) != null)
             {
-                BasicCenter.GetInstence<IRoutingController>(attribute.RoutingBlockID).AddNode(initializedObject, type.GetProperty(attribute.IdentifyProperty).GetValue(initializedObject));
+                //BasicCenter.GetInstence<IRoutingController>(attribute.RoutingBlockID).AddNode(initializedObject, type.GetProperty(attribute.IdentifyProperty).GetValue(initializedObject));
             }
             else if (attribute.Identify != null)
             {
-                BasicCenter.GetInstence<IRoutingController>(attribute.RoutingBlockID).AddNode(initializedObject, attribute.Identify);
+                //BasicCenter.GetInstence<IRoutingController>(attribute.RoutingBlockID).AddNode(initializedObject, attribute.Identify);
             }
         }
     }

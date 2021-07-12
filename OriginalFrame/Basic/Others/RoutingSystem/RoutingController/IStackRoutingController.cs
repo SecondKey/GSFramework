@@ -10,6 +10,7 @@ namespace GSFramework
     /// </summary>
     public interface IStackRoutingController : IRoutingController
     {
+
         /// <summary>
         /// 添加一个节点,该节点会由RoutingController动态创建
         /// </summary>
