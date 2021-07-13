@@ -7,8 +7,9 @@ namespace GSFramework
 {
     public class ResourcesController : StackRoutingController
     {
-
-
-
+        protected override object CreateInstence()
+        {
+            return BasicCenter.CreateInstence<IResourcesProvider>();
+        }
     }
 }

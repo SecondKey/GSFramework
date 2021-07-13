@@ -18,7 +18,7 @@ namespace GSFramework
     /// 该初始化在中间函数后执行，在构造函数，注入函数或中间函数为IdentifyProperty属性赋值即可
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class Initialization_RoutingNodeAttribute : InitializationAttributeBase
+    public abstract class Initialization_RoutingNodeAttribute : InitializationAttributeBase
     {
         /// <summary>
         /// 静态ID
@@ -29,18 +29,13 @@ namespace GSFramework
         /// 动态ID
         /// </summary>
         public string IdentifyProperty { get; set; }
-        /// <summary>
-        /// 路由参数
-        /// </summary>
-        public object[] parameters { get; set; }
-
 
         /// <summary>
         /// 目标路由块
         /// </summary>
-        public string RoutingBlockID { get; } 
+        public string RoutingBlockID { get; }
 
-        public Initialization_RoutingNodeAttribute(string routingBlockID) : base(AppConst.Init_RoutingNode, AppConst.InitTime_After)
+        public Initialization_RoutingNodeAttribute(string routingBlockID, string initializeType) : base(initializeType, AppConst.InitTime_After)
         {
             RoutingBlockID = routingBlockID;
         }

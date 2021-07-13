@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GSFramework
 {
     /// <summary>
-    /// 链式路由的代理
+    /// 链式路由的代理接口
     /// </summary>
     public interface IChainRoutingNodeProxy : IRoutingNodeProxy
     {

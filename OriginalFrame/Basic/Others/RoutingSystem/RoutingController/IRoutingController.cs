@@ -15,15 +15,10 @@ namespace GSFramework
         /// 执行事件
         /// </summary>
         void PerformEvent(IRoutingEventArgs args);
+
         /// <summary>
         /// 获取数据
         /// </summary>
         object GetData(IRoutingEventArgs args);
-
-
-
-
-
-
     }
 }

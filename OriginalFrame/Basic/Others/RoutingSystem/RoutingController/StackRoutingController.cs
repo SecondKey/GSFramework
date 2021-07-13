@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public abstract class StackRoutingController : IStackRoutingController
+    public class StackRoutingController : IStackRoutingController
     {
         IChainRoutingNodeProxy firstProxy;
 
@@ -22,12 +22,30 @@ namespace GSFramework
 
         public void PerformEvent(IRoutingEventArgs args)
         {
-            throw new NotImplementedException();
+            IChainRoutingNodeProxy proxy = firstProxy;
+            while (proxy != null)
+            {
+                proxy.HandleEvent(args);
+                switch (args.RoutingState)
+                {
+                    case RoutingState.Start:
+                        args.RoutingState = RoutingState.Normal;
+                        break;
+                    case RoutingState.Skip:
+                        args.RoutingState = RoutingState.Continue;
+                        continue;
+                    case RoutingState.Handled:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public object GetData(IRoutingEventArgs args)
         {
-            throw new NotImplementedException();
+            PerformEvent(args);
+            return args.Results;
         }
 
         public void AddNode(object identify)
@@ -43,61 +61,30 @@ namespace GSFramework
             proxy.LastProxy = lastProxy;
         }
 
-        public void InsertNode(object identify, object previous, MatchingStrategy strategy)
-        {
-            InsertNode(CreateInstence(), identify, previous, strategy);
-        }
 
-        public void InsertNode(object node, object identify, object previous, MatchingStrategy strategy)
-        {
-            IChainRoutingNodeProxy proxy = CreateProxy(node, identify);
-            IChainRoutingNodeProxy lastProxy = MatchinProxy(previous, strategy);
-            IChainRoutingNodeProxy nextProxy = lastProxy.NextProxy;
-            lastProxy.NextProxy = proxy;
-            proxy.LastProxy = lastProxy;
-            proxy.NextProxy = nextProxy;
-            nextProxy.LastProxy = proxy;
-        }
-
-        public void ReplaceNode(object identify)
-        {
-            ReplaceNode(CreateInstence(), identify);
-        }
-
-        public void ReplaceNode(object node, object identify)
-        {
-            IChainRoutingNodeProxy proxy = CreateProxy(node, identify);
-
-            IChainRoutingNodeProxy replaceProxy = MatchinProxy(identify, MatchingStrategy.Identify);
-            IChainRoutingNodeProxy lastProxy = replaceProxy.LastProxy;
-            IChainRoutingNodeProxy nextProxy = replaceProxy.NextProxy;
-
-            lastProxy.NextProxy = proxy;
-            proxy.LastProxy = lastProxy;
-            proxy.NextProxy = nextProxy;
-            nextProxy.LastProxy = proxy;
-
-        }
 
         public void RemoveNode()
         {
-
+            IChainRoutingNodeProxy removeNode = GetLastProxy();
+            removeNode.LastProxy.NextProxy = null;
         }
 
         public void RemoveNode(object target, MatchingStrategy strategy, bool removeSubsequent)
         {
-
+            IChainRoutingNodeProxy removeProxy = MatchinProxy(target, strategy);
+            IChainRoutingNodeProxy nextProxy = removeSubsequent ? null : removeProxy.NextProxy;
+            removeProxy.LastProxy.NextProxy = nextProxy;
         }
 
 
 
 
-        IChainRoutingNodeProxy GetLastProxy()
+        protected IChainRoutingNodeProxy GetLastProxy()
         {
             return MatchinProxy(-1, MatchingStrategy.Deep);
         }
 
-        IChainRoutingNodeProxy MatchinProxy(object target, MatchingStrategy strategy)
+        protected IChainRoutingNodeProxy MatchinProxy(object target, MatchingStrategy strategy)
         {
             if (firstProxy == null)
                 return null;

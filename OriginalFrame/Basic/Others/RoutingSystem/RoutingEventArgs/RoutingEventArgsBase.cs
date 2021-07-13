@@ -15,6 +15,9 @@ namespace GSFramework
         public object[] Parameters { get; }
         public List<object> StepValues { get; private set; }
 
+        object results;
+        public object Results { get { return results; } set { results = value; StepValues.Add(results); } }
+
         /// <summary>
         /// 初始化EventArgs实例
         /// </summary>

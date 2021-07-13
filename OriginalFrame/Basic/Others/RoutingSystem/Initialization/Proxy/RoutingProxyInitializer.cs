@@ -21,14 +21,7 @@ namespace GSFramework
             {
                 EventBindingAttribute attribute = Attribute.GetCustomAttribute(method, typeof(EventBindingAttribute)) as EventBindingAttribute;
                 string key = string.IsNullOrEmpty(attribute.EventToken) ? attribute.EventToken : method.Name;
-                if (method.ReturnType == typeof(void))
-                {
-                    proxy.RegistEventHandler(key, Delegate.CreateDelegate(typeof(EventHandler), method) as EventHandler);
-                }
-                else
-                {
-                    proxy.RegistDataProviders(key, Delegate.CreateDelegate(typeof(DataProvider), method) as DataProvider);
-                }
+                proxy.RegistEventHandler(key, Delegate.CreateDelegate(typeof(EventHandler), method) as EventHandler);
             }
         }
     }

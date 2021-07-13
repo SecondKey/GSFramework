@@ -11,13 +11,18 @@ namespace GSFramework
         /// </summary>
         Start,
         /// <summary>
-        /// 事件在正常处理
+        /// 路由事件正常执行
         /// </summary>
-        Continue,
+        Normal,
         /// <summary>
-        /// 路由事件跳过了上个节点
+        /// 路由事件跳过下一个节点
         /// </summary>
         Skip,
+        /// <summary>
+        /// 路由事件跳过了上一个节点
+        /// </summary>
+        Continue,
+
         /// <summary>
         /// 路由事件已被处理完毕
         /// </summary>

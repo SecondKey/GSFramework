@@ -154,15 +154,5 @@ namespace GSFramework.Default
 
         #endregion
 
-        #region IDataContainer Members
-        public Dictionary<string, DataProvider> Getters { get; set; }
-
-        public object GetData(IRoutingEventArgs args)
-        {
-            return Getters[args.Token].Invoke(args);
-        }
-
-        public void Initialization() { }
-        #endregion
     }
 }

@@ -43,7 +43,7 @@ namespace GSFramework
 
         #region Initialization Mode
         public const string Init_Injection = "Injection";
-        public const string Init_RoutingNode = "RoutingNode";
+        public const string Init_RoutingNode_Stack = "Init_RoutingNode_Stack";
         public const string Init_RoutingProxy = "RoutingProxy";
 
         public const string Init_RoutedEventBinding = "RoutedEventBinding";

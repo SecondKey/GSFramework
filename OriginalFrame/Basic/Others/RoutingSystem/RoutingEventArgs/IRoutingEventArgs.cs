@@ -39,6 +39,8 @@ namespace GSFramework
         /// 步值表，用于记录每一次数据处理的结果
         /// </summary>
         List<object> StepValues { get; }
+
+        object Results { get; set; }
         #endregion
     }
 }

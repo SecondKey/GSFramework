@@ -6,7 +6,7 @@ using static GSFramework.AppConst;
 
 namespace GSFramework
 {
-    [Initialization_RoutingNode(RoutingBlock_Resources)]
+    [Initialization_RoutingNode_Stack(RoutingBlock_Resources)]
     public class ResourcesLayer
     {
         [RoutingIdentifyProperty]
