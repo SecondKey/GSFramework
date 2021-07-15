@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GSFramework
 {
+    public struct ListStateNodeStruct<T>
+    {
+        public T StateValue;
+        public Action EnterAction;
+        public Action ExitAction;
+    }
+
     /// <summary>
     /// 链式的自动状态，储存一个状态链并自动切换,执行所有的状态后切换回默认状态
     /// </summary>
     /// <typeparam name="T">状态标识的类型</typeparam>
     public class ListState<T> : IState<T>
     {
-        public List<KeyValuePair<Action<T>, Action>> stateList;
+        public List<ListStateNodeStruct<T>> stateList = new List<ListStateNodeStruct<T>>();
 
         public T DefaultValue { get; private set; }
         public T NowValue { get; private set; }
@@ -46,100 +54,139 @@ namespace GSFramework
         public ListState(T defalutValue)
         {
             DefaultValue = defalutValue;
-            stateList = new List<KeyValuePair<Action<T>, Action>>();
         }
 
-        public ListState(T defalutValue, Action<T> changeStateEvent, Action<T> reductionStateEvent, params KeyValuePair<Action<T>, Action>[] states) : this(defalutValue)
+        public ListState(T defalutValue, params ListStateNodeStruct<T>[] states) : this(defalutValue)
         {
-            stateList = new List<KeyValuePair<Action<T>, Action>>(states);
+            stateList = new List<ListStateNodeStruct<T>>(states);
+        }
+
+        public ListState(T defalutValue, Action<T> changeStateEvent, Action<T> reductionStateEvent, params ListStateNodeStruct<T>[] states) : this(defalutValue, states)
+        {
             ChangeStateEvent = changeStateEvent;
             ReductionStateEvent = reductionStateEvent;
         }
 
         /// <summary>
-        /// 添加一个仅有激发事件的状态
+        /// 添加一个状态
         /// </summary>
-        /// <param name="changeStateAction"></param>
-        public void AddState(Action<T> exciteStateEvent)
+        /// <param name="value">状态值</param>
+        /// <param name="enterAction">状态激发事件</param>
+        /// <param name="exitAction">状态还原事件</param>
+        public void AddState(T value, Action enterAction, Action exitAction)
         {
-            AddState(exciteStateEvent, null);
-        }
-
-        /// <summary>
-        /// 添加一个包含激发事件和还原事件的状态
-        /// </summary>
-        /// <param name="changeStateAction"></param>
-        /// <param name="reductionStateAction"></param>
-        public void AddState(Action<T> exciteStateEvent, Action reductionStateAction)
-        {
-            AddState(new KeyValuePair<Action<T>, Action>(exciteStateEvent, reductionStateAction));
+            AddState(new ListStateNodeStruct<T>() { StateValue = value, EnterAction = enterAction, ExitAction = exitAction });
         }
 
         /// <summary>
         /// 添加一个状态
         /// </summary>
-        /// <param name="state"></param>
-        public void AddState(KeyValuePair<Action<T>, Action> state)
+        /// <param name="state">目标状态</param>
+        public void AddState(ListStateNodeStruct<T> state)
         {
             stateList.Add(state);
         }
 
         /// <summary>
+        /// 在指定状态后插入一个状态
+        /// </summary>
+        /// <param name="value">前一个状态值</param>
+        /// <param name="state">插入状态</param>
+        public void InsertState(T value, ListStateNodeStruct<T> state)
+        {
+            int index = stateList.IndexOf(stateList.Where(p => p.StateValue.Equals(value)).First());
+            InsertState(index, state);
+        }
+
+        /// <summary>
         /// 在指定位置插入一个状态
         /// </summary>
-        /// <param name="state">状态</param>
         /// <param name="index">目标位置</param>
-        public void InsertState(KeyValuePair<Action<T>, Action> state, int index)
+        /// <param name="state">插入状态</param>
+        public void InsertState(int index, ListStateNodeStruct<T> state)
         {
             stateList.Insert(index, state);
+        }
+        /// <summary>
+        /// 移除一个状态
+        /// </summary>
+        /// <param name="index">目标位置</param>
+        public void RemoveState(int index)
+        {
+            stateList.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// 移除一个状态
+        /// </summary>
+        /// <param name="value">目标值</param>
+        public void RemoveState(T value)
+        {
+            var node = stateList.Where(p => p.StateValue.Equals(value)).First();
+            stateList.Remove(node);
+        }
+
+        public void ExciteState()
+        {
+            ExciteState(0);
         }
 
         public void ExciteState(T nowValue)
         {
+            ExciteState(GetIndexByValue(nowValue));
+        }
+
+        public void ExciteState(int index)
+        {
             if (!IsExcited)
             {
+                nowStep = index;
+                NowValue = stateList[index].StateValue;
+
                 if (ChangeStateEvent != null)
                 {
-                    ChangeStateEvent.Invoke(nowValue);
+                    ChangeStateEvent.Invoke(NowValue);
                 }
-                NowValue = nowValue;
-                nowStep = 0;
-                if (stateList[nowStep].Key != null)
+                if (stateList[nowStep].EnterAction != null)
                 {
-                    stateList[nowStep].Key.Invoke(nowValue);
+                    stateList[nowStep].EnterAction.Invoke();
                 }
             }
         }
 
         public void RestoreState()
         {
-            if (stateList[nowStep].Value != null)
+            if (stateList[nowStep].ExitAction != null)
             {
-                stateList[nowStep].Value.Invoke();
+                stateList[nowStep].ExitAction.Invoke();
             }
             nowStep += 1;
             if (nowStep >= stateList.Count)
             {
-                nowStep = -1;
-                T tmpValue = NowValue;
-                NowValue = DefaultValue;
                 if (TmpReductionStateEvent != null)
                 {
-                    TmpReductionStateEvent.Invoke(tmpValue);
+                    TmpReductionStateEvent.Invoke(NowValue);
                     TmpReductionStateEvent = null;
                 }
                 if (ReductionStateEvent != null)
                 {
-                    ReductionStateEvent.Invoke(tmpValue);
+                    ReductionStateEvent.Invoke(NowValue);
                 }
+                nowStep = -1;
+                NowValue = DefaultValue;
             }
             else
             {
-                if (stateList[nowStep].Key != null)
+                if (stateList[nowStep].EnterAction != null)
                 {
-                    stateList[nowStep].Key.Invoke(NowValue);
+                    stateList[nowStep].EnterAction.Invoke();
                 }
             }
+        }
+
+        int GetIndexByValue(T value)
+        {
+            return stateList.IndexOf(stateList.Where(p => p.StateValue.Equals(value)).First());
         }
     }
 }

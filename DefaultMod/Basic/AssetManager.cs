@@ -8,6 +8,9 @@ namespace GSFramework.Default
     public class AssetManager : IResourcesProvider
     {
         [Inject]
+        string Level { get; set; }
+
+        [Inject]
         IDataContainer dataContainer { get; set; }
         [Inject]
         IBundleContainer bundleContainer { get; set; }
@@ -17,14 +20,13 @@ namespace GSFramework.Default
         [InitMiddleFunction]
         public void Initialization()
         {
-            LoadLevelState.AddState((s) => { dataContainer.Load(s, LoadLevelState); });
-            LoadLevelState.AddState((s) => { bundleContainer.Load(s, LoadLevelState); });
-            LoadLevelState.AddState((s) => { resourceContainer.Load(s, LoadLevelState); }); LoadLevelState.TmpReductionStateEvent = (s) => { baseState.RestoreState(); };
+            LoadLevelState.AddState("Data", () => { dataContainer.Load(Level, LoadLevelState); }, null);
+            LoadLevelState.AddState("Bundle", () => { bundleContainer.Load(Level, LoadLevelState); }, null);
             LoadLevelState.TmpReductionStateEvent = (s) => { baseState.RestoreState(); };
         }
         #region Handler
         IState<string> baseState;
-        public ListState<string> LoadLevelState { get; set; } = new ListState<string>("");
+        public ListState<string> LoadLevelState { get; set; } = new ListState<string>("Default");
 
         [EventBinding]
         void Load(IRoutingEventArgs args)

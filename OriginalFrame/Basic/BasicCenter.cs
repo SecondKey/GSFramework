@@ -7,18 +7,61 @@ namespace GSFramework
 {
     public static class BasicCenter
     {
+
+        #region GameInit
+        public static ListState<string> gameInitializationState = new ListState<string>("Default",
+            new ListStateNodeStruct<string>() { StateValue = "LoadAppConfig", EnterAction = LoadAppConfig, ExitAction = AppConfigLoadOver },
+            new ListStateNodeStruct<string>() { StateValue = "Update", EnterAction = StartUpdate, ExitAction = UpdateOver },
+            new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = InitResourcesLoadOver });
+
         /// <summary>
         /// 游戏初始化
         /// </summary>
         public static void GameInit()
         {
-            //AppConfig.Instence;
+            gameInitializationState.ExciteState();
         }
 
+        #region LoadAppConfig
+        static void LoadAppConfig()
+        {
+
+        }
+
+        static void AppConfigLoadOver()
+        {
+
+        }
+        #endregion
+
+        #region Update
+        static void StartUpdate()
+        {
+
+        }
+
+        static void UpdateOver()
+        {
+
+        }
+        #endregion
+
+        #region LoadInitResources
+        static void LoadInitResources()
+        {
+
+        }
+
+        static void InitResourcesLoadOver()
+        {
+
+        }
+        #endregion
+
+        #endregion
         #region Resources
         static ResourcesController resourcesController;
         #region Instence
-
         #region CreateInstence
         public static RecursiveScopeState<Dictionary<string, object>> CreateInstenceState { get; set; } = new RecursiveScopeState<Dictionary<string, object>>(new Dictionary<string, object>());
 
