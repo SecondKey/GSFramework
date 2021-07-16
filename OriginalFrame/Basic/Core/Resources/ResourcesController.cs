@@ -9,7 +9,7 @@ namespace GSFramework
     {
         protected override object CreateInstence()
         {
-            return BasicCenter.CreateInstence<IResourcesProvider>();
+            return FrameManager.CreateInstence<IResourcesProvider>();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace GSFramework
                 }
                 else
                 {
-                    return BasicManager.Instence.GetNewObject(type);
+                    return FrameManager.CreateInstence(type);
                 }
             }
             else
@@ -43,28 +43,29 @@ namespace GSFramework
                 switch (injectionType)
                 {
                     case AppConst.Injection_Additional:
-                        foreach (var tar in BasicManager.Instence.CreateInstenceState.GetBottomToTop())
-                        {
-                            if (tar is Dictionary<string, object>)
-                            {
-                                Dictionary<string, object> dic = tar as Dictionary<string, object>;
-                                if (dic.ContainsKey(name))
-                                {
-                                    return dic[name];
-                                }
-                            }
-                        }
+                        //TODO:优先完成
+                        //foreach (var tar in BasicManager.Instence.CreateInstenceState.GetBottomToTop())
+                        //{
+                        //    if (tar is Dictionary<string, object>)
+                        //    {
+                        //        Dictionary<string, object> dic = tar as Dictionary<string, object>;
+                        //        if (dic.ContainsKey(name))
+                        //        {
+                        //            return dic[name];
+                        //        }
+                        //    }
+                        //}
                         return null;
                     case AppConst.Injection_InternalData:
-                        return BasicManager.Instence.GetSingleton<IGameData>().GetData(name);
+                        return FrameManager.GetInstence<IGameData>().GetData(name);
                     case AppConst.Injection_ExternalData:
-                        return BasicManager.Instence.GetData(name);
+                        return FrameManager.GetData(name);
                     case AppConst.Injection_NewInstence:
-                        return BasicManager.Instence.GetNewObject(type, "", name);
+                        return FrameManager.CreateInstence(type, "", name);
                     case AppConst.Injection_NewGameObject:
-                        return BasicManager.Instence.GetNewGameObject(name);
+                        return FrameManager.GetNewGameObject(name);
                     case AppConst.Injection_GameObject:
-                        return BasicManager.Instence.GetGameObject(name);
+                        return FrameManager.GetGameObject(name);
                     default:
                         return injectionType.ConvertToSimpleType(type);
                 }

@@ -38,13 +38,13 @@ namespace GSFramework.MVVM
 
         public virtual void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
-            BasicManager.Instence.GetSingleton<IObservableManager>().PropertyChange(this, propertyName, GetType().GetProperty(propertyName).GetValue(this));
+            FrameManager.GetInstence<IObservableManager>().PropertyChange(this, propertyName, GetType().GetProperty(propertyName).GetValue(this));
         }
 
         public virtual void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
         {
             string propertyName = (propertyExpression.Body as MemberExpression).Member.Name;
-            BasicManager.Instence.GetSingleton<IObservableManager>().PropertyChange(this, propertyName, propertyExpression.Compile().Invoke());
+            FrameManager.GetInstence<IObservableManager>().PropertyChange(this, propertyName, propertyExpression.Compile().Invoke());
         }
 
         public virtual void Initialization() { }

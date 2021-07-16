@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public static class BasicCenter
+    public static class FrameManager
     {
 
         #region GameInit
@@ -26,41 +26,111 @@ namespace GSFramework
         static void LoadAppConfig()
         {
 
+            gameInitializationState.RestoreState();
         }
 
         static void AppConfigLoadOver()
         {
-
+            Debug.Log(1);
         }
         #endregion
 
         #region Update
         static void StartUpdate()
         {
-
+            Debug.Log(2);
+            gameInitializationState.RestoreState();
         }
 
         static void UpdateOver()
         {
-
+            Debug.Log(3);
         }
         #endregion
 
         #region LoadInitResources
         static void LoadInitResources()
         {
-
+            Debug.Log(4);
+            gameInitializationState.RestoreState();
         }
 
         static void InitResourcesLoadOver()
         {
+            Debug.Log(5);
+        }
+        #endregion
+        #endregion
 
+        #region Config
+        static ConfigController configController;
+
+        public static string GetMapping(string scriptType, string scriptId)
+        {
+            return "";
+        }
+        #endregion
+
+        #region Update
+        public static void Update(IState<bool> updateState)
+        {
+            updateState.RestoreState();
+        }
+        #endregion 
+
+        #region Resources
+        /// <summary>
+        /// 
+        /// </summary>
+        static ResourcesController resourcesController;
+
+        #region Assets
+        #region Data
+        /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <param name="getMode">获取对象的方式或类型</param>
+        /// <param name="parameters"></param>
+        public static object GetData(string getMode, params string[] parameters)
+        {
+            return GetData(new GetDataEventArgs("GetData", getMode, parameters));
+        }
+
+        public static object GetData(string getMode, string performer, params string[] parameters)
+        {
+            return GetData(new GetDataEventArgs("GetData", getMode, parameters, performer));
+        }
+
+        public static object GetData(GetDataEventArgs args)
+        {
+            //return resourcesManagers[AssetManager].GetData(args);
+            return null;
+        }
+        #endregion
+
+        #region Bundle
+        public static object GetBundleResource(string getDataToken, params string[] parameters)
+        {
+            return null;
+            //return GetBundleResource(new EventArgs(getDataToken, parameters));
+        }
+
+        public static object GetBundleResource(string getDataToken, string performer, params string[] parameters)
+        {
+            return null;
+            //return GetBundleResource(new EventArgs(getDataToken, parameters, performer));
+        }
+
+        public static object GetBundleResource(EventArgs args)
+        {
+            return null;
+            //return assetManager.GetBundleResource(args);
         }
         #endregion
 
         #endregion
-        #region Resources
-        static ResourcesController resourcesController;
+
+
         #region Instence
         #region CreateInstence
         public static RecursiveScopeState<Dictionary<string, object>> CreateInstenceState { get; set; } = new RecursiveScopeState<Dictionary<string, object>>(new Dictionary<string, object>());
@@ -94,7 +164,7 @@ namespace GSFramework
             {
                 if (performer == "")
                 {
-                    tmpObject = AppConfig.Instence.GetMapping(scriptType, scriptToken).CreateInstence();
+                    tmpObject = configController.GetMapping(scriptType, scriptToken).CreateInstence();
                 }
                 if (tmpObject == null)
                 {
@@ -130,13 +200,32 @@ namespace GSFramework
         #endregion
         #endregion
 
+        #region GameObject
+        #region NewGameObject
+        public static GameObject GetNewGameObject(string name, string performer = "")
+        {
+            return null;
+            //return gameObjectManager.GetNewGameObject(name);
+        }
         #endregion
 
-        #region Update
-        public static void Update(IState<bool> updateState)
+        #region GameObject
+        public static GameObject GetGameObject(string name)
         {
-            updateState.RestoreState();
+            return null;
+            //return gameObjectManager.GetGameObject(name);
         }
-        #endregion 
+        #endregion
+
+        #region GameObjectPool
+        public static GameObject GetReusableGameObject(string name, string performer = "")
+        {
+            //return resourcesManagers[GameObjectManager].GetData(new ReusableGameObjectArgs(name, performer)) as GameObject;
+            return null;
+        }
+        #endregion
+        #endregion
+        #endregion
+
     }
 }

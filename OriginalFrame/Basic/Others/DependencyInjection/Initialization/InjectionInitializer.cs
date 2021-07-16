@@ -20,7 +20,7 @@ namespace GSFramework
             {
                 foreach (InjectAttribute attribute in (InjectAttribute[])property.GetCustomAttributes(typeof(InjectAttribute), true))
                 {
-                    if (string.IsNullOrEmpty(attribute.UseCondition) || BasicManager.Instence.GetSingleton<IGameData>().CheckConditions(attribute.UseCondition))
+                    if (string.IsNullOrEmpty(attribute.UseCondition) || FrameManager.GetInstence<IGameData>().CheckConditions(attribute.UseCondition))
                     {
                         if (string.IsNullOrEmpty(attribute.ParametersGetMode))
                         {

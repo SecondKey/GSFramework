@@ -10,13 +10,13 @@ namespace GSFramework.MVC
     {
         public void ExecuteCommand(string commandName, params object[] parameters)
         {
-            ICommand command = BasicManager.Instence.GetNewObject<ICommand>(commandName);
+            ICommand command = FrameManager.CreateInstence<ICommand>(commandName);
             command.Execute(parameters);
         }
 
         public IModel GetModel(string modelName)
         {
-            return BasicManager.Instence.GetObject<IModel>(modelName);
+            return FrameManager.GetInstence<IModel>(modelName);
         }
 
         public IView GetView(string viewName)

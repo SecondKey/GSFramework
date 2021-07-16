@@ -12,7 +12,7 @@ namespace GSFramework.MVC.MSGFrame
         public void Initialization(object initializedObject)
         {
             INotifiedObject notifiedObject = initializedObject as INotifiedObject;
-            IMsgComponent component = BasicManager.Instence.GetNewObject<IMsgComponent>();
+            IMsgComponent component = FrameManager.CreateInstence<IMsgComponent>();
             component.notifiedObject = notifiedObject;
             component.MsgHandlers = new Dictionary<string, IMsgHandler>();
 

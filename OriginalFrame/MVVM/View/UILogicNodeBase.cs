@@ -121,7 +121,7 @@ namespace GSFramework.MVVM
         [InitMiddleFunction]
         public void Init()
         {
-            BasicManager.Instence.GetSingleton<UIManager>().RegistUITree(this as UIRootBase);
+            FrameManager.GetInstence<UIManager>().RegistUITree(this as UIRootBase);
         }
     }
 }

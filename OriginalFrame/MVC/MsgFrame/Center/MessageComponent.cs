@@ -28,7 +28,7 @@ namespace GSFramework.MVC.MSGFrame
             //msg.Source = notifiedObject;
             if (!MsgHandlers.ContainsKey(handler))
             {
-                MsgHandlers.Add(handler, BasicManager.Instence.GetNewObject<IMsgHandler>(handler));
+                MsgHandlers.Add(handler, FrameManager.CreateInstence<IMsgHandler>(handler));
             }
             MsgHandlers[handler].StartOperation(msg, parameters);
         }
@@ -37,7 +37,7 @@ namespace GSFramework.MVC.MSGFrame
         {
             if (!MsgHandlers.ContainsKey(handler))
             {
-                MsgHandlers.Add(handler, BasicManager.Instence.GetNewObject<IMsgHandler>(handler));
+                MsgHandlers.Add(handler, FrameManager.CreateInstence<IMsgHandler>(handler));
             }
             if (MsgHandlers[handler].MsgEventHandlers.ContainsKey(msg))
             {
@@ -47,12 +47,12 @@ namespace GSFramework.MVC.MSGFrame
             {
                 MsgHandlers[handler].MsgEventHandlers.Add(msg, handlerEvent);
             }
-            BasicManager.Instence.GetObject<MsgManager>(notifiedObject.MsgStstem).RegistMsg(this, msg);
+            FrameManager.GetInstence<MsgManager>(notifiedObject.MsgStstem).RegistMsg(this, msg);
         }
 
         public void UnRegistMsg(string msg)
         {
-            BasicManager.Instence.GetObject<MsgManager>(notifiedObject.MsgStstem).UnRegistMsg(this, msg);
+            FrameManager.GetInstence<MsgManager>(notifiedObject.MsgStstem).UnRegistMsg(this, msg);
         }
     }
 }

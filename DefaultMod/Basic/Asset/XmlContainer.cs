@@ -43,7 +43,7 @@ namespace GSFramework.Default
                     }
                     break;
                 case AppConst.GeneralLevel:
-                    foreach (var kv in BasicManager.Instence.GetData(GetAllValue, AppConst.RootLevel, "AppData", "Load", "Data") as Dictionary<string, string>)
+                    foreach (var kv in FrameManager.GetData(GetAllValue, AppConst.RootLevel, "AppData", "Load", "Data") as Dictionary<string, string>)
                     {
                         xmls.Add(kv.Key, AppConst.AssetPath[AppConst.GeneralLevel] + kv.Value);
                     }

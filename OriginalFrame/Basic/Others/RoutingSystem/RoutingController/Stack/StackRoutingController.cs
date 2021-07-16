@@ -12,7 +12,7 @@ namespace GSFramework
         #region 使用简易方法生成代理或动态创建对象，在子类中重写
         protected virtual IChainRoutingNodeProxy CreateProxy(object node, object identify)
         {
-            return BasicCenter.CreateInstence<IChainRoutingNodeProxy>("", "", new Dictionary<string, object>() { { "node", node }, { "identify", identify } });
+            return FrameManager.CreateInstence<IChainRoutingNodeProxy>("", "", new Dictionary<string, object>() { { "node", node }, { "identify", identify } });
         }
         protected virtual object CreateInstence()
         {

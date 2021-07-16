@@ -20,13 +20,13 @@ namespace GSFramework.Default
                 }
                 else
                 {
-                    tmp = BasicManager.Instence.GetNewObject(scriptType, scripToken);
+                    tmp = FrameManager.CreateInstence(scriptType, scripToken);
                     objectDictionary[scriptType].Add(singletonToken, tmp);
                 }
             }
             else
             {
-                tmp = BasicManager.Instence.GetNewObject(scriptType, scripToken);
+                tmp = FrameManager.CreateInstence(scriptType, scripToken);
                 objectDictionary.Add(scriptType, new Dictionary<string, object>() { { singletonToken, tmp } });
             }
             return tmp;

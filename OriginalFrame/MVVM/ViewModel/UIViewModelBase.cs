@@ -21,10 +21,10 @@ namespace GSFramework.MVVM
                 {
                     if (model != null)
                     {
-                        BasicManager.Instence.GetSingleton<IObservableManager>().UnbindData(Model, this);
+                        FrameManager.GetInstence<IObservableManager>().UnbindData(Model, this);
                     }
                     model = value;
-                    BasicManager.Instence.GetSingleton<IObservableManager>().BindingData(Model, this);
+                    FrameManager.GetInstence<IObservableManager>().BindingData(Model, this);
                 }
             }
         }

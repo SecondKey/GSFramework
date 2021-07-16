@@ -20,7 +20,7 @@ namespace GSFramework.MVVM
                         UIBindingComponent[] targetBindingComponent = components.Where(p => p.targetComponent == ui.GetType().Name).ToArray();
                         if (targetBindingComponent.Length > 0)
                         {
-                           BasicManager.Instence.GetNewObject<IUIBinder>( ui.GetType().Name).Binding(ui, targetBindingComponent.First(), targetObject as IUILogicalNode);
+                            FrameManager.CreateInstence<IUIBinder>(ui.GetType().Name).Binding(ui, targetBindingComponent.First(), targetObject as IUILogicalNode);
                         }
                     }
                 }

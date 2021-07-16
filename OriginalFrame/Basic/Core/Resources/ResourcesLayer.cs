@@ -24,7 +24,7 @@ namespace GSFramework
             loadResourcesState = new ListState<string>("");
             foreach (string s in resourcesManagers.Keys)
             {
-                IResourcesProvider manager = AppConfig.Instence.GetMapping(typeof(IResourcesProvider).FullName, s).CreateInstence() as IResourcesProvider;
+                IResourcesProvider manager = FrameManager.GetMapping(typeof(IResourcesProvider).FullName, s).CreateInstence() as IResourcesProvider;
                 //resourcesManagers[s].AddNode(manager);
             }
             loadResourcesState.TmpReductionStateEvent = LoadOverAction;

@@ -40,7 +40,7 @@ namespace GSFramework
         {
             if (!initializers.ContainsKey(initializerName))
             {
-                initializers.Add(initializerName, BasicManager.Instence.GetNewObject<IInitializer>(initializerName));
+                initializers.Add(initializerName, FrameManager.CreateInstence<IInitializer>(initializerName));
             }
             return initializers[initializerName];
         }
