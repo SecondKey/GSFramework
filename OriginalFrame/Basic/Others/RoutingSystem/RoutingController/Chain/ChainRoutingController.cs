@@ -9,7 +9,7 @@ namespace GSFramework
     {
         public void InsertNode(object identify, object previous, MatchingStrategy strategy)
         {
-            InsertNode(CreateInstence(), identify, previous, strategy);
+            InsertNode(CreateNode(), identify, previous, strategy);
         }
 
         public void InsertNode(object node, object identify, object previous, MatchingStrategy strategy)
@@ -25,7 +25,7 @@ namespace GSFramework
 
         public void ReplaceNode(object identify)
         {
-            ReplaceNode(CreateInstence(), identify);
+            ReplaceNode(CreateNode(), identify);
         }
 
         public void ReplaceNode(object node, object identify)

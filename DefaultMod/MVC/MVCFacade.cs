@@ -10,7 +10,7 @@ namespace GSFramework.MVC
     {
         public void ExecuteCommand(string commandName, params object[] parameters)
         {
-            ICommand command = FrameManager.CreateInstence<ICommand>(commandName);
+            ICommand command = FrameManager.CreateInstence<ICommand>(id: commandName);
             command.Execute(parameters);
         }
 

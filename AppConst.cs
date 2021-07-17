@@ -11,7 +11,17 @@ namespace GSFramework
         #region Path
         public static string DataPath { get { return Application.dataPath + "/"; } }
 
-        public static Dictionary<string, string> AssetPath = new Dictionary<string, string>() { { "AppConfig", DataPath + "AppConfig.xml" } };
+        public static string Path_Config = "Config";
+        public static string Path_Root = "Root";
+        public static string Path_Update = "Update";
+        public static string Path_General = "General";
+        public static string Path_DLC = "DLC";
+        public static string Path_MOD = "MOD";
+        public static string Path_Save = "Save";
+
+        public static string Config_IOCMapping = "IOCMapping";
+
+        public static Dictionary<string, string> AssetPath = new Dictionary<string, string>() { { "MainConfig", DataPath + "AppConfig.xml" } };
         #endregion
 
         #region Parameter Get Mode

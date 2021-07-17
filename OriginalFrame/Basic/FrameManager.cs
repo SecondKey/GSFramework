@@ -7,31 +7,45 @@ namespace GSFramework
 {
     public static class FrameManager
     {
-
         #region GameInit
-        public static ListState<string> gameInitializationState = new ListState<string>("Default",
+        public static ListState<string> GameInitializationState { get; } = new ListState<string>("Default",
             new ListStateNodeStruct<string>() { StateValue = "LoadAppConfig", EnterAction = LoadAppConfig, ExitAction = AppConfigLoadOver },
             new ListStateNodeStruct<string>() { StateValue = "Update", EnterAction = StartUpdate, ExitAction = UpdateOver },
             new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = InitResourcesLoadOver });
+
+        #region BeforInit
+        static Dictionary<object, (string id, Type type)> instenceBeforInit;
+        /// <summary>
+        /// 当一个类在需要在游戏初始化前创建单例时，应该使用传统的单例模式而不是FrameManager.GetInstence()。
+        /// 使用该方法将目标单例注册到单例集合中，方便以后使用FrameManager.GetInstence()访问
+        /// </summary>
+        /// <param name="instence"></param>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        public static void RegistInstenceBeforInit(object instence, string id, Type type)
+        {
+            instenceBeforInit.Add(instence, (id, type));
+        }
+        #endregion
 
         /// <summary>
         /// 游戏初始化
         /// </summary>
         public static void GameInit()
         {
-            gameInitializationState.ExciteState();
+            GameInitializationState.ExciteState();
         }
 
         #region LoadAppConfig
         static void LoadAppConfig()
         {
-
-            gameInitializationState.RestoreState();
+            AppConfigManager.Instence.LoadConfig(AppConst.RootLevel);
+            GameInitializationState.RestoreState();
         }
 
         static void AppConfigLoadOver()
         {
-            Debug.Log(1);
+
         }
         #endregion
 
@@ -39,7 +53,7 @@ namespace GSFramework
         static void StartUpdate()
         {
             Debug.Log(2);
-            gameInitializationState.RestoreState();
+            GameInitializationState.RestoreState();
         }
 
         static void UpdateOver()
@@ -52,7 +66,7 @@ namespace GSFramework
         static void LoadInitResources()
         {
             Debug.Log(4);
-            gameInitializationState.RestoreState();
+            GameInitializationState.RestoreState();
         }
 
         static void InitResourcesLoadOver()
@@ -63,8 +77,6 @@ namespace GSFramework
         #endregion
 
         #region Config
-        static ConfigController configController;
-
         public static string GetMapping(string scriptType, string scriptId)
         {
             return "";
@@ -127,7 +139,6 @@ namespace GSFramework
             //return assetManager.GetBundleResource(args);
         }
         #endregion
-
         #endregion
 
 
@@ -135,25 +146,18 @@ namespace GSFramework
         #region CreateInstence
         public static RecursiveScopeState<Dictionary<string, object>> CreateInstenceState { get; set; } = new RecursiveScopeState<Dictionary<string, object>>(new Dictionary<string, object>());
 
-        public static T CreateInstence<T>(string scriptToken = "", string performer = "", Dictionary<string, object> parameters = null)
+        public static T CreateInstence<T>(string id = "", string performer = "", Dictionary<string, object> parameters = null)
         {
-            object tmp = CreateInstence(typeof(T).FullName, scriptToken, performer, parameters);
-            if (tmp == null)
-            {
-                return default;
-            }
-            else
-            {
-                return (T)tmp;
-            }
+            object tmp = CreateInstence(typeof(T).FullName, id, performer, parameters);
+            return (T)tmp;
         }
 
-        public static object CreateInstence(Type scriptType, string scriptToken = "", string performer = "", Dictionary<string, object> parameters = null)
+        public static object CreateInstence(Type scriptType, string id = "", string performer = "", Dictionary<string, object> parameters = null)
         {
-            return CreateInstence(scriptType.FullName, scriptToken, performer, parameters);
+            return CreateInstence(scriptType.FullName, id, performer, parameters);
         }
 
-        public static object CreateInstence(string scriptType, string scriptToken, string performer = "", Dictionary<string, object> parameters = null)
+        public static object CreateInstence(string scriptType, string id = "", string performer = "", Dictionary<string, object> parameters = null)
         {
             if (parameters == null)
             {
@@ -164,11 +168,11 @@ namespace GSFramework
             {
                 if (performer == "")
                 {
-                    tmpObject = configController.GetMapping(scriptType, scriptToken).CreateInstence();
+                    tmpObject = AppConfigManager.Instence.GetMapping(scriptType, id).CreateInstence();
                 }
                 if (tmpObject == null)
                 {
-                    tmpObject = resourcesController.GetData(new InstenceArgs(scriptType, scriptToken, performer));
+                    tmpObject = resourcesController.GetData(new InstenceArgs(scriptType, id, performer));
                 }
                 if (tmpObject == null)
                 {
@@ -193,6 +197,11 @@ namespace GSFramework
 
         public static object GetInstence(string scriptType, string scriptToken, string objectToken = "")
         {
+            if (scriptType.GetType() == typeof(IRoutingController))
+            {
+
+            }
+
             return resourcesController.GetData(new TopToBottomEventArgs(AppConst.Resources_GetInstence, scriptType, scriptToken, objectToken));
         }
 

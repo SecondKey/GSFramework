@@ -28,7 +28,7 @@ namespace GSFramework.MVC.MSGFrame
             //msg.Source = notifiedObject;
             if (!MsgHandlers.ContainsKey(handler))
             {
-                MsgHandlers.Add(handler, FrameManager.CreateInstence<IMsgHandler>(handler));
+                MsgHandlers.Add(handler, FrameManager.CreateInstence<IMsgHandler>(handler, null));
             }
             MsgHandlers[handler].StartOperation(msg, parameters);
         }
@@ -37,7 +37,7 @@ namespace GSFramework.MVC.MSGFrame
         {
             if (!MsgHandlers.ContainsKey(handler))
             {
-                MsgHandlers.Add(handler, FrameManager.CreateInstence<IMsgHandler>(handler));
+                MsgHandlers.Add(handler, FrameManager.CreateInstence<IMsgHandler>(handler, null));
             }
             if (MsgHandlers[handler].MsgEventHandlers.ContainsKey(msg))
             {

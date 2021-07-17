@@ -9,12 +9,13 @@ namespace GSFramework
     {
         IChainRoutingNodeProxy firstProxy;
 
-        #region 使用简易方法生成代理或动态创建对象，在子类中重写
+        #region dynamic
+        //使用简易方法生成代理或动态创建对象，在子类中重写
         protected virtual IChainRoutingNodeProxy CreateProxy(object node, object identify)
         {
             return FrameManager.CreateInstence<IChainRoutingNodeProxy>("", "", new Dictionary<string, object>() { { "node", node }, { "identify", identify } });
         }
-        protected virtual object CreateInstence()
+        protected virtual object CreateNode()
         {
             return null;
         }
@@ -50,7 +51,7 @@ namespace GSFramework
 
         public void AddNode(object identify)
         {
-            AddNode(CreateInstence(), identify);
+            this.AddNode(CreateNode(), identify);
         }
 
         public void AddNode(object node, object identify)
@@ -60,8 +61,6 @@ namespace GSFramework
             lastProxy.NextProxy = proxy;
             proxy.LastProxy = lastProxy;
         }
-
-
 
         public void RemoveNode()
         {
@@ -76,14 +75,29 @@ namespace GSFramework
             removeProxy.LastProxy.NextProxy = nextProxy;
         }
 
-
-
-
+        /// <summary>
+        /// 获取首位节点
+        /// </summary>
+        /// <returns></returns>
+        protected IChainRoutingNodeProxy GetFirstProxy()
+        {
+            return firstProxy;
+        }
+        /// <summary>
+        /// 获取末位节点
+        /// </summary>
+        /// <returns></returns>
         protected IChainRoutingNodeProxy GetLastProxy()
         {
             return MatchinProxy(-1, MatchingStrategy.Deep);
         }
 
+        /// <summary>
+        /// 匹配节点
+        /// </summary>
+        /// <param name="target">匹配目标</param>
+        /// <param name="strategy">匹配模式</param>
+        /// <returns></returns>
         protected IChainRoutingNodeProxy MatchinProxy(object target, MatchingStrategy strategy)
         {
             if (firstProxy == null)
