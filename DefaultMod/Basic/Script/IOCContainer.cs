@@ -65,14 +65,14 @@ namespace GSFramework.Default
         #endregion
 
         #region GetInstence
-        public object CreateInstence(string scriptType, string scriptToken)
+        public object CreateInstence(string scriptType, string scriptToken = "", Dictionary<string, object> parameters = null)
         {
             if (!mappings.ContainsKey(scriptType) || !mappings[scriptType].ContainsKey(scriptToken))
             {
                 return null;
             }
 
-            return mappings[scriptType][scriptToken].CreateInstence();
+            return mappings[scriptType][scriptToken].CreateInstence(parameters);
         }
         #endregion
 

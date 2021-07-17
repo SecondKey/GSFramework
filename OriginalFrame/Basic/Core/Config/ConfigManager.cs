@@ -7,38 +7,49 @@ using UnityEngine;
 
 namespace GSFramework
 {
-    public class AppConfigManager
+    /// <summary>
+    /// 配置表管理器
+    /// 加载以及存储配置信息
+    /// </summary>
+    public class ConfigManager
     {
         #region 单例
-        private static AppConfigManager instence;
-        private AppConfigManager() { FrameManager.RegistInstenceBeforInit(this, "Config", typeof(IRoutingController)); }
-        public static AppConfigManager Instence { get { if (instence == null) instence = new AppConfigManager(); return instence; } }
+        private static ConfigManager instence;
+        private ConfigManager() { FrameManager.RegistInstenceBeforInit(this, "Config", typeof(IRoutingController)); }
+        public static ConfigManager Instence { get { if (instence == null) instence = new ConfigManager(); return instence; } }
         #endregion
-
 
         XElement mainConfig;
         Dictionary<string, XElement> configFiles;
 
-
-        public void LoadConfig(string level)
+        /// <summary>
+        /// 加载程序配置表
+        /// </summary>
+        public void LoadConfig()
         {
-            mainConfig = XDocument.Load(AppConst.AssetPath["AppConfig"]).Root;
+            mainConfig = XDocument.Load(AppConst.Path["MainConfig"]).Root;
 
             configFiles = new Dictionary<string, XElement>();
 
             foreach (XElement path in mainConfig.Elements("Path").Elements())
             {
-                AppConst.AssetPath.Add(path.Name.ToString(), path.Value);
+                AppConst.Path.Add(path.Name.ToString(), AppConst.DataPath + path.Value);
             }
             foreach (XElement configFile in mainConfig.Element("ConfigFile").Elements())
             {
-                configFiles.Add(configFile.Name.ToString(), XDocument.Load($"{AppConst.AssetPath[AppConst.Path_Config]}/{configFile.Value}.xml").Root);
+                configFiles.Add(configFile.Name.ToString(), XDocument.Load($"{AppConst.Path[AppConst.Path_Config]}/{configFile.Value}.xml").Root);
             }
         }
 
         #region Mapping
+        /// <summary>
+        /// IOC映射表
+        /// </summary>
         Dictionary<string, Dictionary<string, Type>> basicMapping;
 
+        /// <summary>
+        /// 加载IOC映射表
+        /// </summary>
         void LoadIOCMappingsConfig()
         {
             basicMapping = new Dictionary<string, Dictionary<string, Type>>();

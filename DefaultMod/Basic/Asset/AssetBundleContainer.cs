@@ -28,7 +28,7 @@ namespace GSFramework.Default
             switch (level)
             {
                 case AppConst.RootLevel:
-                    foreach (FileInfo file in new DirectoryInfo(AppConst.AssetPath[level]).GetFiles("*.u3d"))
+                    foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*.u3d"))
                     {
                         bundles.Add(file.Name.Replace(".u3d", ""), file.FullName);
                     }

@@ -9,11 +9,13 @@ namespace GSFramework
     {
         public string ScriptType { get; }
         public string ScriptToken { get; }
+        public Dictionary<string, object> InjectionParameters { get; }
 
-        public InstenceArgs(string scriptType, string scriptToken, string performer) : base("GetNewObject", performer)
+        public InstenceArgs(string scriptType, string scriptToken, string performer, Dictionary<string, object> injectionParameters) : base("GetNewObject", performer)
         {
             ScriptType = scriptType;
             ScriptToken = scriptToken;
+            InjectionParameters = injectionParameters;
         }
     }
 }

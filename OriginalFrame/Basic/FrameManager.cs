@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
+using static GSFramework.DevelopmentModeLog;
 
 namespace GSFramework
 {
@@ -9,12 +12,12 @@ namespace GSFramework
     {
         #region GameInit
         public static ListState<string> GameInitializationState { get; } = new ListState<string>("Default",
-            new ListStateNodeStruct<string>() { StateValue = "LoadAppConfig", EnterAction = LoadAppConfig, ExitAction = AppConfigLoadOver },
-            new ListStateNodeStruct<string>() { StateValue = "Update", EnterAction = StartUpdate, ExitAction = UpdateOver },
+            new ListStateNodeStruct<string>() { StateValue = "LoadAppConfig", EnterAction = LoadAppConfig, ExitAction = () => { BasicLog("配置表加载完毕"); } },
+            new ListStateNodeStruct<string>() { StateValue = "Update", EnterAction = GameUpdate, ExitAction = () => { BasicLog("资源更新完毕"); } },
             new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = InitResourcesLoadOver });
 
         #region BeforInit
-        static Dictionary<object, (string id, Type type)> instenceBeforInit;
+        static Dictionary<object, (string id, Type type)> instenceBeforInit = new Dictionary<object, (string id, Type type)>();
         /// <summary>
         /// 当一个类在需要在游戏初始化前创建单例时，应该使用传统的单例模式而不是FrameManager.GetInstence()。
         /// 使用该方法将目标单例注册到单例集合中，方便以后使用FrameManager.GetInstence()访问
@@ -28,52 +31,63 @@ namespace GSFramework
         }
         #endregion
 
+        static Action InitOverAction;
+
         /// <summary>
         /// 游戏初始化
         /// </summary>
-        public static void GameInit()
+        public static void GameInit(Action initOverAction)
         {
+            BasicLog("开始游戏初始化");
+            InitOverAction = initOverAction;
             GameInitializationState.ExciteState();
         }
 
         #region LoadAppConfig
+        /// <summary>
+        /// 加载配置表
+        /// </summary>
         static void LoadAppConfig()
         {
-            AppConfigManager.Instence.LoadConfig(AppConst.RootLevel);
+            BasicLog("开始加载配置表");
+            ConfigManager.Instence.LoadConfig();
             GameInitializationState.RestoreState();
-        }
-
-        static void AppConfigLoadOver()
-        {
-
         }
         #endregion
 
         #region Update
-        static void StartUpdate()
+        static void GameUpdate()
         {
-            Debug.Log(2);
+            BasicLog("开始更新内容");
             GameInitializationState.RestoreState();
         }
 
-        static void UpdateOver()
-        {
-            Debug.Log(3);
-        }
         #endregion
 
         #region LoadInitResources
         static void LoadInitResources()
         {
-            Debug.Log(4);
+            BasicLog("开始加载初始化资源");
             GameInitializationState.RestoreState();
         }
 
         static void InitResourcesLoadOver()
         {
-            Debug.Log(5);
+            BasicLog("初始化资源加载完成");
+            InitOver();
         }
         #endregion
+
+        /// <summary>
+        /// 游戏初始化完成
+        /// </summary>
+        static void InitOver()
+        {
+            if (InitOverAction != null)
+            {
+                InitOverAction.Invoke();
+            }
+        }
         #endregion
 
         #region Config
@@ -144,7 +158,6 @@ namespace GSFramework
 
         #region Instence
         #region CreateInstence
-        public static RecursiveScopeState<Dictionary<string, object>> CreateInstenceState { get; set; } = new RecursiveScopeState<Dictionary<string, object>>(new Dictionary<string, object>());
 
         public static T CreateInstence<T>(string id = "", string performer = "", Dictionary<string, object> parameters = null)
         {
@@ -164,24 +177,20 @@ namespace GSFramework
                 parameters = new Dictionary<string, object>();
             }
             object tmpObject = null;
-            using (CreateInstenceState.SetScope(parameters))
+            if (performer == "")
             {
-                if (performer == "")
-                {
-                    tmpObject = AppConfigManager.Instence.GetMapping(scriptType, id).CreateInstence();
-                }
-                if (tmpObject == null)
-                {
-                    tmpObject = resourcesController.GetData(new InstenceArgs(scriptType, id, performer));
-                }
-                if (tmpObject == null)
-                {
-                    tmpObject = scriptType.CreateInstence();
-                }
+                tmpObject = ConfigManager.Instence.GetMapping(scriptType, id).CreateInstence(parameters);
+            }
+            if (tmpObject == null)
+            {
+                tmpObject = resourcesController.GetData(new InstenceArgs(scriptType, id, performer, parameters));
+            }
+            if (tmpObject == null)
+            {
+                tmpObject = scriptType.CreateInstence(parameters);
             }
             return tmpObject;
         }
-
         #endregion
         #region GetInstence
 

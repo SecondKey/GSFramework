@@ -53,7 +53,7 @@ namespace GSFramework.Default
                 case AppConst.RootLevel:
                     foreach (string s in textureFormat)
                     {
-                        foreach (FileInfo file in new DirectoryInfo(AppConst.AssetPath[level]).GetFiles("*." + s))
+                        foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*." + s))
                         {
                             tmp.Add(file.Name.Replace("." + textureFormat, ""), file.FullName);
                         }
@@ -70,7 +70,7 @@ namespace GSFramework.Default
             switch (level)
             {
                 case AppConst.RootLevel:
-                    foreach (FileInfo file in new DirectoryInfo(AppConst.AssetPath[level]).GetFiles("*.wav"))
+                    foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*.wav"))
                     {
                         tmp.Add(file.Name.Replace(".wav", ""), file.FullName);
                     }

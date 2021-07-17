@@ -21,7 +21,7 @@ namespace GSFramework
 
         public static string Config_IOCMapping = "IOCMapping";
 
-        public static Dictionary<string, string> AssetPath = new Dictionary<string, string>() { { "MainConfig", DataPath + "AppConfig.xml" } };
+        public static Dictionary<string, string> Path = new Dictionary<string, string>() { { "MainConfig", DataPath + "AppConfig.xml" } };
         #endregion
 
         #region Parameter Get Mode

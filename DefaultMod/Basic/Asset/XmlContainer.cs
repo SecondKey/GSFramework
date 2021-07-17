@@ -37,7 +37,7 @@ namespace GSFramework.Default
             switch (level)
             {
                 case AppConst.RootLevel:
-                    foreach (FileInfo file in new DirectoryInfo(AppConst.AssetPath[level]).GetFiles("*.xml"))
+                    foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*.xml"))
                     {
                         xmls.Add(file.Name.Replace(".xml", ""), file.FullName);
                     }
@@ -45,7 +45,7 @@ namespace GSFramework.Default
                 case AppConst.GeneralLevel:
                     foreach (var kv in FrameManager.GetData(GetAllValue, AppConst.RootLevel, "AppData", "Load", "Data") as Dictionary<string, string>)
                     {
-                        xmls.Add(kv.Key, AppConst.AssetPath[AppConst.GeneralLevel] + kv.Value);
+                        xmls.Add(kv.Key, AppConst.Path[AppConst.GeneralLevel] + kv.Value);
                     }
                     break;
             }
