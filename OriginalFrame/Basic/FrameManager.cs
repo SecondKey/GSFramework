@@ -4,31 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using static GSFramework.DevelopmentModeLog;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework
 {
     public static class FrameManager
     {
         #region GameInit
-        public static ListState<string> GameInitializationState { get; } = new ListState<string>("Default",
+        public static ListState<string> GameInitializationState { get; } = new ListState<string>("Default", new ListStateNodeStruct<string>[]{
             new ListStateNodeStruct<string>() { StateValue = "LoadAppConfig", EnterAction = LoadAppConfig, ExitAction = () => { BasicLog("配置表加载完毕"); } },
             new ListStateNodeStruct<string>() { StateValue = "Update", EnterAction = GameUpdate, ExitAction = () => { BasicLog("资源更新完毕"); } },
-            new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = InitResourcesLoadOver });
+            new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = InitResourcesLoadOver } });
 
         #region BeforInit
-        static Dictionary<object, (string id, Type type)> instenceBeforInit = new Dictionary<object, (string id, Type type)>();
         /// <summary>
-        /// 当一个类在需要在游戏初始化前创建单例时，应该使用传统的单例模式而不是FrameManager.GetInstence()。
-        /// 使用该方法将目标单例注册到单例集合中，方便以后使用FrameManager.GetInstence()访问
+        /// 当一个类在需要在游戏初始化前创建单例时，由FrameManager创建对象并保留对象实例。
+        /// 该实例会在实例管理器初始化后注册到实例管理器中。
         /// </summary>
-        /// <param name="instence"></param>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
-        public static void RegistInstenceBeforInit(object instence, string id, Type type)
-        {
-            instenceBeforInit.Add(instence, (id, type));
-        }
+        static Dictionary<object, Type> instenceBeforInit = new Dictionary<object, Type>();
+
         #endregion
 
         static Action InitOverAction;
@@ -49,8 +43,10 @@ namespace GSFramework
         /// </summary>
         static void LoadAppConfig()
         {
-            BasicLog("开始加载配置表");
-            ConfigManager.Instence.LoadConfig();
+            BasicLog("开始加载配置表。");
+            ConfigManager configManager = new ConfigManager();
+            instenceBeforInit.Add(configManager, typeof(ConfigManager));
+            configManager.LoadConfig();
             GameInitializationState.RestoreState();
         }
         #endregion
@@ -58,7 +54,10 @@ namespace GSFramework
         #region Update
         static void GameUpdate()
         {
-            BasicLog("开始更新内容");
+            BasicLog("开始更新内容。");
+            VersionManager versionManager = new VersionManager();
+            instenceBeforInit.Add(versionManager, typeof(VersionManager));
+            versionManager.PerformUpdate();
             GameInitializationState.RestoreState();
         }
 
@@ -179,7 +178,7 @@ namespace GSFramework
             object tmpObject = null;
             if (performer == "")
             {
-                tmpObject = ConfigManager.Instence.GetMapping(scriptType, id).CreateInstence(parameters);
+                tmpObject = GetInstence<ConfigManager>().GetMapping(scriptType, id).CreateInstence(parameters);
             }
             if (tmpObject == null)
             {

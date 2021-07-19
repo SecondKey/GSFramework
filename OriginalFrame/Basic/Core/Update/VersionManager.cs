@@ -11,7 +11,6 @@ namespace GSFramework
     public class VersionManager
     {
         List<Version> versionList;
-        
 
         public void PerformUpdate()
         {

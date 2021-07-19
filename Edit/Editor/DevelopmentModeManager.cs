@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using static GSFramework.Dev.DevelopmentModeLog;
+using static GSFramework.AppConst;
 
-namespace GSFramework
+namespace GSFramework.Dev
 {
     public class DevelopmentModeManager
     {
@@ -15,9 +17,13 @@ namespace GSFramework
         const string PackageLoadPath = "工具/开发模式/加载/资源包";
         const string StorageLoadPath = "工具/开发模式/加载/存档";
 
-        const string MsgPath = "工具/开发模式/输出/Msg";
-        const string ScriptPath = "工具/开发模式/输出/Script";
+
+        const string FramePath = "工具/开发模式/输出/Frame";
         const string BasicPath = "工具/开发模式/输出/Basic";
+
+        const string ScriptPath = "工具/开发模式/输出/Script";
+
+        const string MsgPath = "工具/开发模式/输出/Msg";
         const string ToolsPath = "工具/开发模式/输出/Tools";
         const string UIPath = "工具/开发模式/输出/UI";
         const string RunningPath = "工具/开发模式/输出/Running";
@@ -28,12 +34,13 @@ namespace GSFramework
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void SimulatedLoad()
         {
-            DevelopmentModeLog.MsgDebug = Menu.GetChecked(MsgPath);
-            DevelopmentModeLog.ScriptDebug = Menu.GetChecked(ScriptPath);
-            DevelopmentModeLog.BasicDebug = Menu.GetChecked(BasicPath);
-            DevelopmentModeLog.ToolsDebug = Menu.GetChecked(ToolsPath);
-            DevelopmentModeLog.UIDebug = Menu.GetChecked(UIPath);
-            DevelopmentModeLog.RunningDebug = Menu.GetChecked(RunningPath);
+            LogSwitchs[DevelopmentModeLog_Frame] = Menu.GetChecked(FramePath);
+            LogSwitchs[DevelopmentModeLog_Basic] = Menu.GetChecked(BasicPath);
+            //DevelopmentModeLog.MsgDebug = Menu.GetChecked(MsgPath);
+            //DevelopmentModeLog.ScriptDebug = Menu.GetChecked(ScriptPath);
+            //DevelopmentModeLog.ToolsDebug = Menu.GetChecked(ToolsPath);
+            //DevelopmentModeLog.UIDebug = Menu.GetChecked(UIPath);
+            //DevelopmentModeLog.RunningDebug = Menu.GetChecked(RunningPath);
 
             if (Menu.GetChecked(DevelopmentMode))
             {
@@ -61,6 +68,23 @@ namespace GSFramework
         }
 
         #region Log
+        [MenuItem(FramePath)]
+        public static void FrameDebug()
+        {
+            Menu.SetChecked(FramePath, !Menu.GetChecked(FramePath));
+            Debug.Log("Frame:" + Menu.GetChecked(FramePath));
+        }
+
+        [MenuItem(BasicPath)]
+        public static void BasicDebug()
+        {
+            Menu.SetChecked(BasicPath, !Menu.GetChecked(BasicPath));
+            Debug.Log("Basic:" + Menu.GetChecked(BasicPath));
+        }
+
+
+
+
         [MenuItem(MsgPath)]
         public static void MsgDebug()
         {
@@ -77,12 +101,7 @@ namespace GSFramework
 
 
 
-        [MenuItem(BasicPath)]
-        public static void RADDebug()
-        {
-            Menu.SetChecked(BasicPath, !Menu.GetChecked(BasicPath));
-            Debug.Log("Basic:" + Menu.GetChecked(BasicPath));
-        }
+
 
         [MenuItem(ToolsPath)]
         public static void ToolsDebug()

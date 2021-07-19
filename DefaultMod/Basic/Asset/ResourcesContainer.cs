@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework.Default
 {
@@ -119,7 +120,7 @@ namespace GSFramework.Default
             {
                 nam = nam + " " + parameter[i];
             }
-            DevelopmentModeLog.BasicLog("Resource:" + nam);
+            BasicLog("Resource:" + nam);
         }
         #endregion 
 

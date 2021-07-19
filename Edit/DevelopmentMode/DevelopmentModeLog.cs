@@ -1,20 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using static GSFramework.AppConst;
 
-namespace GSFramework
+namespace GSFramework.Dev
 {
     /// <summary>
     /// 可选择的输出测试
     /// </summary>
-    public class DevelopmentModeLog
+    public static class DevelopmentModeLog
     {
+        public static Dictionary<string, bool> LogSwitchs = new Dictionary<string, bool>()
+        {
+            { DevelopmentModeLog_Frame,false},
+            { DevelopmentModeLog_Basic,false},
+        };
+
+
+        #region Frame
+        public static void FrameLog(object text)
+        {
+            if (LogSwitchs[DevelopmentModeLog_Frame])
+            {
+                Debug.Log("Frame:" + text);
+            }
+        }
+        public static void FrameLogError(object text)
+        {
+            Debug.LogError("Frame错误:" + text);
+        }
+        #endregion 
+
+        #region Basic
+        public static void BasicLog(object text)
+        {
+            if (LogSwitchs[DevelopmentModeLog_Basic])
+            {
+                Debug.Log("Basic:" + text);
+            }
+        }
+        public static void BasicLogError(object text)
+        {
+            Debug.LogError("Basic错误:" + text);
+        }
+        #endregion
+
         #region Message
-        public static bool MsgDebug;
+        internal static bool MsgSwitch;
 
         public static void MsgLog(object text)
         {
-            if (MsgDebug)
+            if (MsgSwitch)
             {
                 Debug.Log("Message:" + text);
             }
@@ -27,11 +64,11 @@ namespace GSFramework
         #endregion
 
         #region Script
-        public static bool ScriptDebug;
+        internal static bool ScriptSwitch;
 
         public static void ScriptLog(object text)
         {
-            if (ScriptDebug)
+            if (ScriptSwitch)
             {
                 Debug.Log("Message:" + text);
             }
@@ -42,28 +79,12 @@ namespace GSFramework
         }
         #endregion 
 
-        #region IO
-        public static bool BasicDebug;
-
-        public static void BasicLog(object text)
-        {
-            if (BasicDebug)
-            {
-                Debug.Log("Basic:" + text);
-            }
-        }
-        public static void BasicLogError(object text)
-        {
-            Debug.LogError("IO错误:" + text);
-        }
-        #endregion
-
         #region Tools
-        public static bool ToolsDebug;
+        internal static bool ToolsSwitch;
 
         public static void ToolsLog(object text)
         {
-            if (ToolsDebug)
+            if (ToolsSwitch)
             {
                 Debug.Log("Tools:" + text);
             }
@@ -75,11 +96,11 @@ namespace GSFramework
         #endregion
 
         #region UI
-        public static bool UIDebug;
+        internal static bool UISwitch;
 
         public static void UILog(object text)
         {
-            if (UIDebug)
+            if (UISwitch)
             {
                 Debug.Log("UI:" + text);
             }
@@ -91,11 +112,11 @@ namespace GSFramework
         #endregion
 
         #region Running
-        public static bool RunningDebug;
+        internal static bool RunningSwitch;
 
         public static void RunningLog(object text)
         {
-            if (RunningDebug)
+            if (RunningSwitch)
             {
                 Debug.Log("Running:" + text);
             }

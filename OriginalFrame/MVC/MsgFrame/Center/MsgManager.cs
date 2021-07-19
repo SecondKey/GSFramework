@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GSFramework.Dev.DevelopmentModeLog;
+
 /// <summary>
 /// 消息管理器
 /// 负责内置注册删除消息链表等方法供子类使用
@@ -143,7 +145,7 @@ namespace GSFramework.MVC.MSGFrame
 
                     break;
                 default:
-                    DevelopmentModeLog.MsgLogError("Manager收到了一个 未标注发送模式，或无法处理对应模式的Msg");
+                    MsgLogError("Manager收到了一个 未标注发送模式，或无法处理对应模式的Msg");
                     break;
             }
         }

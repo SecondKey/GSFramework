@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework.Default
 {
@@ -88,7 +89,7 @@ namespace GSFramework.Default
             {
                 text = text + " " + parameter[i];
             }
-            DevelopmentModeLog.BasicLog("IOC:" + text);
+            BasicLog("IOC:" + text);
         }
         #endregion
     }

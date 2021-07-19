@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework.MVC.MSGFrame
 {
@@ -20,13 +21,13 @@ namespace GSFramework.MVC.MSGFrame
             }
             else
             {
-                DevelopmentModeLog.MsgLog($"Common中没有注册用于处理{msg.Token}的方法");
+                MsgLog($"Common中没有注册用于处理{msg.Token}的方法");
             }
         }
 
         public void StartOperation(MessageArgs msg, params object[] operations)
         {
-            DevelopmentModeLog.MsgLog($"由Common发送了一个{msg.Token}消息");
+            MsgLog($"由Common发送了一个{msg.Token}消息");
             MsgManager.SendMsg(msg);
         }
     }

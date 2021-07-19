@@ -97,5 +97,20 @@ namespace GSFramework
         #region MVVM
 
         #endregion
+
+
+
+        #region Other
+        #region DevelopmentMode
+
+        public const string DevelopmentModeLog_Frame = "Frame";
+        public const string DevelopmentModeLog_Basic = "Frame";
+        //public const string DevelopmentModeLog_ = "Frame";
+        //public const string DevelopmentModeLog_Frame = "Frame";
+        //public const string DevelopmentModeLog_Frame = "Frame";
+        //public const string DevelopmentModeLog_Frame = "Frame";
+
+        #endregion 
+        #endregion
     }
 }

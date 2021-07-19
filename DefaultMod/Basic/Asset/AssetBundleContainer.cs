@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework.Default
 {
@@ -67,7 +68,7 @@ namespace GSFramework.Default
             {
                 nam = nam + " " + parameter[i];
             }
-            DevelopmentModeLog.BasicLog("AssetBundle:" + nam);
+            BasicLog("AssetBundle:" + nam);
         }
         #endregion 
 

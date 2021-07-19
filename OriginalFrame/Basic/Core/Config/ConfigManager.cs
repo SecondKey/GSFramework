@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using UnityEngine;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework
 {
@@ -13,12 +14,6 @@ namespace GSFramework
     /// </summary>
     public class ConfigManager
     {
-        #region 单例
-        private static ConfigManager instence;
-        private ConfigManager() { FrameManager.RegistInstenceBeforInit(this, "Config", typeof(IRoutingController)); }
-        public static ConfigManager Instence { get { if (instence == null) instence = new ConfigManager(); return instence; } }
-        #endregion
-
         XElement mainConfig;
         Dictionary<string, XElement> configFiles;
 
@@ -80,12 +75,12 @@ namespace GSFramework
 
             if (!basicMapping.ContainsKey(basicType))
             {
-                DevelopmentModeLog.BasicLogError($"在IOC映射表中没有找到指定的基础类型{basicType}");
+                BasicLogError($"在IOC映射表中没有找到指定的基础类型{basicType}");
                 return null;
             }
             else if (!basicMapping[basicType].ContainsKey(id))
             {
-                DevelopmentModeLog.BasicLogError($"在IOC映射表中，基础类型{basicType}没有注册{id}对应的实例");
+                BasicLogError($"在IOC映射表中，基础类型{basicType}没有注册{id}对应的实例");
                 return null;
             }
 

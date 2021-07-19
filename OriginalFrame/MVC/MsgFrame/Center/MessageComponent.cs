@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GSFramework.Dev.DevelopmentModeLog;
 
 namespace GSFramework.MVC.MSGFrame
 {
@@ -20,7 +21,7 @@ namespace GSFramework.MVC.MSGFrame
                     return;
                 }
             }
-            DevelopmentModeLog.MsgLogError($"查找{msg.Token}的执行方法时出错!在{notifiedObject}");
+            MsgLogError($"查找{msg.Token}的执行方法时出错!在{notifiedObject}");
         }
 
         public void SendMsg(MessageArgs msg, string handler, object[] parameters)//发送消息方法

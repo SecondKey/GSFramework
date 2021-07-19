@@ -6,6 +6,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
+using static GSFramework.Dev.DevelopmentModeLog;
+
 
 namespace GSFramework.Default
 {
@@ -149,7 +151,7 @@ namespace GSFramework.Default
             {
                 nam = nam + " " + parameter[i];
             }
-            DevelopmentModeLog.BasicLog("Xml:" + nam);
+            BasicLog("Xml:" + nam);
         }
 
         #endregion
