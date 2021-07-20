@@ -21,9 +21,6 @@ namespace GSFramework
             new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = ()=>{ BasicLog("初始化资源加载完成");} } },
             mainReductionStateEvent: InitOver);
 
-        #region BeforInit
-        #endregion
-
         static Action InitOverAction;
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace GSFramework
         static void LoadInitResources()
         {
             BasicLog("开始加载初始化资源。");
-            GetInstence<ResourcesManager>().LoadResources(AppConst.RootLevel);
+            GetInstence<ResourcesManager>().LoadResources(AppConst.ResourcesLevel_RootLevel);
             GameInitializationState.RestoreState();
         }
         #endregion
@@ -174,7 +171,7 @@ namespace GSFramework
             }
             if (tmpObject == null)
             {
-                tmpObject = resourcesController.GetData(new InstenceArgs(baseType, id, performer, parameters));
+                tmpObject = GetInstence<ResourcesManager>().GetResource(AppConst.Resources_Event_GetInstence, new InstenceArgs(baseType, id, performer, parameters));
             }
             if (tmpObject == null)
             {
@@ -185,48 +182,72 @@ namespace GSFramework
         #endregion
         #region GetInstence
 
-        public static T GetInstence<T>(string scriptId = "", string objectId = "", string layer = "")
+        public static T GetInstence<T>(string scriptId = "", string layer = AppConst.ResourcesLevel_Auto, string objectId = "")
         {
-            return (T)CreateInstence(typeof(T).FullName, scriptId, objectId);
+            return (T)GetInstence(typeof(T).FullName, scriptId, layer, objectId);
         }
 
-        public static object GetInstence(Type baseType, string scriptId = "", string objectId = "", string layer = "")
+        public static object GetInstence(Type baseType, string scriptId = "", string layer = AppConst.ResourcesLevel_Auto, string objectId = "")
         {
-            return GetInstence(baseType.FullName, scriptId, objectId);
+            return GetInstence(baseType.FullName, scriptId, layer, objectId);
         }
 
-        public static object GetInstence(string baseType, string scriptId, string layer = AppConst.RootLevel, string objectId = "")
+        public static object GetInstence(string baseType, string scriptId, string layer = AppConst.ResourcesLevel_Auto, string objectId = "")
         {
             if (layer == null)
             {
                 BasicLogError("在获取实例时必须指定目标实例所在的层级");
                 return null;
             }
-            if (layer == AppConst.RootLevel)
+            if (layer == AppConst.ResourcesLevel_BasicLevel)
             {
-                if (!FrameInstence.ContainsKey(baseType))
-                {
-                    FrameInstence.Add(baseType, null);
-                }
-                if (FrameInstence[baseType].ContainsKey(scriptId))
+                if (FrameInstence.ContainsKey(baseType) && FrameInstence[baseType].ContainsKey(scriptId))
                 {
                     return FrameInstence[baseType][scriptId];
                 }
-                object instence = CreateInstence(baseType, scriptId, layer);
-                if (instence != null)
+                else
                 {
+                    object instence = CreateInstence(baseType, scriptId, AppConst.ResourcesLevel_BasicLevel);
+                    if (instence != null)
+                    {
+                        if (!FrameInstence.ContainsKey(baseType))
+                        {
+                            FrameInstence.Add(baseType, null);
+                        }
+                        FrameInstence[baseType].Add(objectId, instence);
+                        return instence;
+                    }
+                    else
+                    {
+                        BasicLogError($"在获取{baseType}的实例过程中，无法创建id为：{scriptId}的对象。");
+                        return null;
+                    }
+                }
+            }
+            else if (layer == AppConst.ResourcesLevel_Auto)
+            {
+                if (FrameInstence.ContainsKey(baseType) && FrameInstence[baseType].ContainsKey(scriptId))
+                {
+                    return FrameInstence[baseType][scriptId];
+                }
+                else if (!string.IsNullOrEmpty(AppConst.GetDefaultIOCMapping(baseType, scriptId)))
+                {
+                    object instence = CreateInstence(baseType, scriptId, AppConst.ResourcesLevel_BasicLevel);
+                    if (!FrameInstence.ContainsKey(baseType))
+                    {
+                        FrameInstence.Add(baseType, null);
+                    }
                     FrameInstence[baseType].Add(objectId, instence);
                     return instence;
                 }
                 else
                 {
-                    BasicLogError($"在获取{baseType}的实例过程中，无法创建id为：{scriptId}的对象。");
-                    return null;
+                    return GetInstence<ResourcesManager>().GetResource(AppConst.Resources_Instence, new TopToBottomEventArgs(AppConst.Resources_Event_GetInstence, baseType, scriptId, objectId));
                 }
             }
             else
             {
-                return resourcesController.GetData(new TopToBottomEventArgs(AppConst.Resources_GetInstence, baseType, scriptId, objectId));
+                return GetInstence<ResourcesManager>().GetResource(AppConst.Resources_Instence, new TopToBottomEventArgs(AppConst.Resources_Event_GetInstence, baseType, scriptId, objectId));
             }
         }
 

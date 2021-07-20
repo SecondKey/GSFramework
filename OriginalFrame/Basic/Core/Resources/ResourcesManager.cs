@@ -16,9 +16,9 @@ namespace GSFramework
 
         }
 
-        public void GetResource(string resourcesType, RoutingEventArgsBase eventArgs)
+        public object GetResource(string resourcesType, RoutingEventArgsBase eventArgs)
         {
-
+            return null;
         }
     }
 }

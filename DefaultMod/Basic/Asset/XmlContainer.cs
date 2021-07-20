@@ -38,16 +38,16 @@ namespace GSFramework.Default
             Dictionary<string, string> xmls = new Dictionary<string, string>();
             switch (level)
             {
-                case AppConst.RootLevel:
+                case AppConst.ResourcesLevel_RootLevel:
                     foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*.xml"))
                     {
                         xmls.Add(file.Name.Replace(".xml", ""), file.FullName);
                     }
                     break;
-                case AppConst.GeneralLevel:
-                    foreach (var kv in FrameManager.GetData(GetAllValue, AppConst.RootLevel, "AppData", "Load", "Data") as Dictionary<string, string>)
+                case AppConst.ResourcesLevel_GeneralLevel:
+                    foreach (var kv in FrameManager.GetData(GetAllValue, AppConst.ResourcesLevel_RootLevel, "AppData", "Load", "Data") as Dictionary<string, string>)
                     {
-                        xmls.Add(kv.Key, AppConst.Path[AppConst.GeneralLevel] + kv.Value);
+                        xmls.Add(kv.Key, AppConst.Path[AppConst.ResourcesLevel_GeneralLevel] + kv.Value);
                     }
                     break;
             }

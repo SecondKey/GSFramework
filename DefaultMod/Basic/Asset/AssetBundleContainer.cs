@@ -28,13 +28,13 @@ namespace GSFramework.Default
             Dictionary<string, string> bundles = new Dictionary<string, string>();
             switch (level)
             {
-                case AppConst.RootLevel:
+                case AppConst.ResourcesLevel_RootLevel:
                     foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*.u3d"))
                     {
                         bundles.Add(file.Name.Replace(".u3d", ""), file.FullName);
                     }
                     break;
-                case AppConst.GeneralLevel:
+                case AppConst.ResourcesLevel_GeneralLevel:
                     break;
             }
 

@@ -96,11 +96,13 @@ namespace GSFramework
         #endregion
 
         #region ResourcesLevel
-        public const string RootLevel = "Root";
-        public const string GeneralLevel = "General";
-        public const string AdditionalLevel = "Additional";
-        public const string RunningLevel = "Running";
-        public const string RunningAdditionalLevel = "RunningAdditional";
+        public const string ResourcesLevel_Auto = "Auto";
+        public const string ResourcesLevel_BasicLevel = "BasicLevel";
+        public const string ResourcesLevel_RootLevel = "Root";
+        public const string ResourcesLevel_GeneralLevel = "General";
+        public const string ResourcesLevel_AdditionalLevel = "Additional";
+        public const string ResourcesLevel_RunningLevel = "Running";
+        public const string ResourcesLevel_RunningAdditionalLevel = "RunningAdditional";
         #endregion 
 
         #region RoutingBlock

@@ -51,7 +51,7 @@ namespace GSFramework.Default
             Dictionary<string, string> tmp = new Dictionary<string, string>();
             switch (level)
             {
-                case AppConst.RootLevel:
+                case AppConst.ResourcesLevel_RootLevel:
                     foreach (string s in textureFormat)
                     {
                         foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*." + s))
@@ -60,7 +60,7 @@ namespace GSFramework.Default
                         }
                     }
                     break;
-                case AppConst.GeneralLevel:
+                case AppConst.ResourcesLevel_GeneralLevel:
                     break;
             }
             return tmp;
@@ -70,13 +70,13 @@ namespace GSFramework.Default
             Dictionary<string, string> tmp = new Dictionary<string, string>();
             switch (level)
             {
-                case AppConst.RootLevel:
+                case AppConst.ResourcesLevel_RootLevel:
                     foreach (FileInfo file in new DirectoryInfo(AppConst.Path[level]).GetFiles("*.wav"))
                     {
                         tmp.Add(file.Name.Replace(".wav", ""), file.FullName);
                     }
                     break;
-                case AppConst.GeneralLevel:
+                case AppConst.ResourcesLevel_GeneralLevel:
                     break;
             }
             return tmp;
