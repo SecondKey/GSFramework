@@ -8,6 +8,34 @@ namespace GSFramework
     public static class AppConst
     {
         #region Basic
+        #region DefaultIOCMappings
+
+        static Dictionary<string, Dictionary<string, string>> DefaultIOCMappingDict;
+
+        public static string GetDefaultIOCMapping(string basicType, string id)
+        {
+            if (DefaultIOCMappingDict == null)
+            {
+                DefaultIOCMappingDict = new Dictionary<string, Dictionary<string, string>>()
+                {
+                    { "",new Dictionary<string, string>(){ } }
+                };
+            }
+
+            if (DefaultIOCMappingDict.ContainsKey(basicType) && DefaultIOCMappingDict[basicType].ContainsKey(id))
+            {
+                return DefaultIOCMappingDict[basicType][id];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+
+
         #region Path
         public static string DataPath { get { return Application.dataPath + "/"; } }
 
@@ -79,13 +107,18 @@ namespace GSFramework
         public const string RoutingBlock_Resources = "RoutingBlock_Resources";
         #endregion
 
-        #region ResourcesEvent
-        public const string Resources_GetData = "Resources_GetData";
-        //public const string Resources_GetBundle = "Resources_GetBundle";
-        //public const string Resources_GetData = "Resources_GetData";
 
-        public const string Resources_CreateInstence = "Resources_CreateInstence";
-        public const string Resources_GetInstence = "Resources_GetInstence";
+        #region ResourcesType
+        public const string Resources_Assets = "Resources_Asset";
+        public const string Resources_Instence = "Resources_Instence";
+        #endregion
+
+        #region ResourcesEvent
+        public const string Resources_Event_GetData = "GetData";
+        public const string Resources_Event_GetBundle = "GetBundle";
+
+        public const string Resources_Event_CreateInstence = "CreateInstence";
+        public const string Resources_Event_GetInstence = "GetInstence";
         #endregion
         #endregion
 

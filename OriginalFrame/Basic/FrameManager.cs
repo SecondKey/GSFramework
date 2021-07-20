@@ -10,19 +10,18 @@ namespace GSFramework
 {
     public static class FrameManager
     {
+        #region FrameInstence
+        static Dictionary<string, Dictionary<string, object>> FrameInstence = new Dictionary<string, Dictionary<string, object>>();
+        #endregion
+
         #region GameInit
-        public static ListState<string> GameInitializationState { get; } = new ListState<string>("Default", new ListStateNodeStruct<string>[]{
+        public static ListState<string> GameInitializationState { get; } = new ListState<string>("Default", states: new ListStateNodeStruct<string>[]{
             new ListStateNodeStruct<string>() { StateValue = "LoadAppConfig", EnterAction = LoadAppConfig, ExitAction = () => { BasicLog("配置表加载完毕"); } },
             new ListStateNodeStruct<string>() { StateValue = "Update", EnterAction = GameUpdate, ExitAction = () => { BasicLog("资源更新完毕"); } },
-            new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = InitResourcesLoadOver } });
+            new ListStateNodeStruct<string>() { StateValue = "LoadInitResourece", EnterAction = LoadInitResources, ExitAction = ()=>{ BasicLog("初始化资源加载完成");} } },
+            mainReductionStateEvent: InitOver);
 
         #region BeforInit
-        /// <summary>
-        /// 当一个类在需要在游戏初始化前创建单例时，由FrameManager创建对象并保留对象实例。
-        /// 该实例会在实例管理器初始化后注册到实例管理器中。
-        /// </summary>
-        static Dictionary<object, Type> instenceBeforInit = new Dictionary<object, Type>();
-
         #endregion
 
         static Action InitOverAction;
@@ -44,36 +43,33 @@ namespace GSFramework
         static void LoadAppConfig()
         {
             BasicLog("开始加载配置表。");
-            ConfigManager configManager = new ConfigManager();
-            instenceBeforInit.Add(configManager, typeof(ConfigManager));
-            configManager.LoadConfig();
+            GetInstence<ConfigManager>().LoadConfig();
             GameInitializationState.RestoreState();
         }
         #endregion
 
         #region Update
+        /// <summary>
+        /// 游戏更新
+        /// </summary>
         static void GameUpdate()
         {
             BasicLog("开始更新内容。");
-            VersionManager versionManager = new VersionManager();
-            instenceBeforInit.Add(versionManager, typeof(VersionManager));
-            versionManager.PerformUpdate();
+            GetInstence<VersionManager>().PerformUpdate();
             GameInitializationState.RestoreState();
         }
 
         #endregion
 
         #region LoadInitResources
+        /// <summary>
+        /// 加载初始化资源
+        /// </summary>
         static void LoadInitResources()
         {
-            BasicLog("开始加载初始化资源");
+            BasicLog("开始加载初始化资源。");
+            GetInstence<ResourcesManager>().LoadResources(AppConst.RootLevel);
             GameInitializationState.RestoreState();
-        }
-
-        static void InitResourcesLoadOver()
-        {
-            BasicLog("初始化资源加载完成");
-            InitOver();
         }
         #endregion
 
@@ -82,6 +78,7 @@ namespace GSFramework
         /// </summary>
         static void InitOver()
         {
+            BasicLog("初始化完成!");
             if (InitOverAction != null)
             {
                 InitOverAction.Invoke();
@@ -104,11 +101,6 @@ namespace GSFramework
         #endregion 
 
         #region Resources
-        /// <summary>
-        /// 
-        /// </summary>
-        static ResourcesController resourcesController;
-
         #region Assets
         #region Data
         /// <summary>
@@ -164,12 +156,12 @@ namespace GSFramework
             return (T)tmp;
         }
 
-        public static object CreateInstence(Type scriptType, string id = "", string performer = "", Dictionary<string, object> parameters = null)
+        public static object CreateInstence(Type baseType, string id = "", string performer = "", Dictionary<string, object> parameters = null)
         {
-            return CreateInstence(scriptType.FullName, id, performer, parameters);
+            return CreateInstence(baseType.FullName, id, performer, parameters);
         }
 
-        public static object CreateInstence(string scriptType, string id = "", string performer = "", Dictionary<string, object> parameters = null)
+        public static object CreateInstence(string baseType, string id = "", string performer = "", Dictionary<string, object> parameters = null)
         {
             if (parameters == null)
             {
@@ -178,39 +170,64 @@ namespace GSFramework
             object tmpObject = null;
             if (performer == "")
             {
-                tmpObject = GetInstence<ConfigManager>().GetMapping(scriptType, id).CreateInstence(parameters);
+                tmpObject = GetInstence<ConfigManager>().GetMapping(baseType, id).CreateInstence(parameters);
             }
             if (tmpObject == null)
             {
-                tmpObject = resourcesController.GetData(new InstenceArgs(scriptType, id, performer, parameters));
+                tmpObject = resourcesController.GetData(new InstenceArgs(baseType, id, performer, parameters));
             }
             if (tmpObject == null)
             {
-                tmpObject = scriptType.CreateInstence(parameters);
+                tmpObject = baseType.CreateInstence(parameters);
             }
             return tmpObject;
         }
         #endregion
         #region GetInstence
 
-        public static T GetInstence<T>(string scriptToken = "", string objectToken = "")
+        public static T GetInstence<T>(string scriptId = "", string objectId = "", string layer = "")
         {
-            return (T)CreateInstence(typeof(T).FullName, scriptToken, objectToken);
+            return (T)CreateInstence(typeof(T).FullName, scriptId, objectId);
         }
 
-        public static object GetInstence(Type scriptType, string scriptToken = "", string objectToken = "")
+        public static object GetInstence(Type baseType, string scriptId = "", string objectId = "", string layer = "")
         {
-            return GetInstence(scriptType.FullName, scriptToken, objectToken);
+            return GetInstence(baseType.FullName, scriptId, objectId);
         }
 
-        public static object GetInstence(string scriptType, string scriptToken, string objectToken = "")
+        public static object GetInstence(string baseType, string scriptId, string layer = AppConst.RootLevel, string objectId = "")
         {
-            if (scriptType.GetType() == typeof(IRoutingController))
+            if (layer == null)
             {
-
+                BasicLogError("在获取实例时必须指定目标实例所在的层级");
+                return null;
             }
-
-            return resourcesController.GetData(new TopToBottomEventArgs(AppConst.Resources_GetInstence, scriptType, scriptToken, objectToken));
+            if (layer == AppConst.RootLevel)
+            {
+                if (!FrameInstence.ContainsKey(baseType))
+                {
+                    FrameInstence.Add(baseType, null);
+                }
+                if (FrameInstence[baseType].ContainsKey(scriptId))
+                {
+                    return FrameInstence[baseType][scriptId];
+                }
+                object instence = CreateInstence(baseType, scriptId, layer);
+                if (instence != null)
+                {
+                    FrameInstence[baseType].Add(objectId, instence);
+                    return instence;
+                }
+                else
+                {
+                    BasicLogError($"在获取{baseType}的实例过程中，无法创建id为：{scriptId}的对象。");
+                    return null;
+                }
+            }
+            else
+            {
+                return resourcesController.GetData(new TopToBottomEventArgs(AppConst.Resources_GetInstence, baseType, scriptId, objectId));
+            }
         }
 
 
